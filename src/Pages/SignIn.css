@@ -1,0 +1,25 @@
+.signin-google-btn {
+  padding: 10px 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  width: 70%;
+}
+
+.signin-google-btn:hover {
+  cursor: pointer;
+}
+
+.signin-google-logo {
+  width: 20px;
+}
+
+.signin-google-text {
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin-left: 15px;
+}

@@ -1,0 +1,113 @@
+.home-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.home {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+}
+
+.home-second {
+  width: 80%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 100px;
+}
+
+.home-content-section {
+  padding: 0px 20px 0px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.home-img {
+  width: 100%;
+}
+
+.home-content-quote {
+  width: 90%;
+  font-family: "Quicksand", sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.home-content-author {
+  margin-left: auto;
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 60px;
+}
+
+.home-content-motivation {
+  width: 85%;
+  font-family: "Quicksand", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+.home-content-link {
+  border: 2px solid black;
+  border-radius: 20px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 8px 20px;
+  text-decoration: none;
+  color: black;
+}
+
+.home-content-link:hover {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.home-second-read,
+.home-second-write {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-second-read-img,
+.home-second-write-img {
+  width: 70%;
+  margin-bottom: 40px;
+}
+
+.home-second-read-question,
+.home-second-write-question {
+  width: fit-content;
+  font-family: "Quicksand", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.home-second-read-link,
+.home-second-write-link {
+  padding: 10px 40px;
+  width: 30%;
+  background-color: black;
+  color: white;
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 20px;
+  text-decoration: none;
+}

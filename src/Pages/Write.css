@@ -1,0 +1,242 @@
+.write-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.write-bg-img-container {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.write-bg-img {
+  width: 100%;
+}
+
+.write-bg-content,
+.write-quote-div {
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 1;
+}
+
+.write-bg-salutation {
+  width: fit-content;
+  color: black;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  letter-spacing: 1.5px;
+  font-family: "Quicksand", sans-serif;
+}
+
+.write-bg-welcome {
+  width: fit-content;
+  color: black;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  letter-spacing: 1.5px;
+  font-family: "Quicksand", sans-serif;
+}
+
+.write-quote-div {
+  top: 78%;
+  width: 33%;
+}
+
+.write-bg-quote {
+  width: fit-content;
+  color: black;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  font-family: "Quicksand", sans-serif;
+}
+
+.write-bg-author {
+  width: fit-content;
+  margin-left: auto;
+  margin-right: 60px;
+  color: black;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  font-family: "Quicksand", sans-serif;
+}
+
+.write-bg-svg-box {
+  position: absolute;
+  left: 50%;
+  right: 50%;
+  bottom: 40px;
+  z-index: 1;
+  height: 50px;
+  width: fit-content;
+}
+
+.write-bg-svg {
+  animation: dropDownAnim 0.7s ease-in-out infinite alternate;
+}
+
+.write-bg-svg:hover {
+  cursor: pointer;
+}
+
+@keyframes dropDownAnim {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(30px);
+  }
+}
+
+.write-section {
+  width: 100%;
+  background: white;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+}
+
+.write {
+  width: 80%;
+  padding: 50px 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.write-header {
+  width: fit-content;
+  font-size: 23px;
+  font-weight: 600;
+  color: black;
+  letter-spacing: 0px;
+  margin-bottom: 40px;
+  letter-spacing: 1.5px;
+  font-family: "Quicksand", sans-serif;
+}
+
+.write-main-grid {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.button-div {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.write-main-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.write-img-upload-div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.editorjs-container {
+  width: 100%;
+  margin-bottom: 50px;
+  display: grid;
+  height: fit-content;
+  grid-template-columns: 1.5fr 1fr;
+  grid-gap: 30px;
+}
+
+/* .editor-js-kp2p5f9u {
+  width: 100%;
+  height: fit-content;
+  background: rgb(240, 240, 240);
+}
+
+.codex-editor--narrow {
+  width: 85%;
+  margin-right: 0px;
+  display: flex;
+  justify-content: center;
+  margin-left: 45px;
+}*/
+
+/* @media (min-width: 651px) {
+  .codex-editor--narrow .codex-editor__redactor {
+    margin: 0px;
+  }
+}  */
+
+.write-img-div {
+  width: 80%;
+  height: 250px;
+  background: rgb(228, 228, 228);
+  margin-bottom: 30px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.write-img-div::after {
+  content: "Select a cover image";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  color: black;
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.write-img-upload-btn,
+.preview-btn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 2px solid black;
+  background: white;
+  color: black;
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.preview-btn {
+  margin-left: 20px;
+}
+
+.write-img-upload-btn:hover,
+.preview-btn:hover {
+  background: black;
+  color: white;
+  cursor: pointer;
+}
+
+.write-img {
+  height: 100%;
+  z-index: 3;
+}
+
+.write-btns {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

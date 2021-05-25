@@ -1,0 +1,84 @@
+.navbar-container {
+  padding: 13px 60px;
+  background-color: #b5ebff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.navbar-logo {
+  font-family: "Times New Roman", Times, serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.5px;
+  background-color: #b5ebff;
+  text-decoration: none;
+  color: black;
+}
+
+.navbar-logo:hover {
+  color: black;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.navbar-signin-start {
+  display: flex;
+  align-items: center;
+  background-color: #b5ebff;
+}
+
+.navbar-signin,
+.navbar-get-started,
+.navbar-signed-items {
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin-right: 15px;
+  border: none;
+  padding: 7px 15px;
+  border-radius: 20px;
+  background-color: #b5ebff;
+  transform: scale(1);
+  transition: transform 0.1s ease-in-out;
+  text-decoration: none;
+  color: black;
+}
+
+.navbar-signed-items {
+  margin-right: 8px;
+}
+
+.navbar-signin:hover,
+.navbar-signed-items:hover {
+  background-color: rgb(235, 235, 235);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.navbar-signed-items:nth-child(4):hover {
+  cursor: pointer;
+  background-color: #b5ebff;
+}
+
+.navbar-get-started {
+  background-color: black;
+  color: white;
+}
+
+.navbar-get-started:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  text-decoration: none;
+  color: white;
+}
+
+.navbar-profile-img {
+  width: 27px;
+  border-radius: 50%;
+}

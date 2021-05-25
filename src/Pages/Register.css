@@ -1,0 +1,108 @@
+.register-container,
+.signin-container {
+  width: 100%;
+  height: 100vh;
+  background-color: #f3ecd3;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-card,
+.signin-card {
+  width: 25%;
+  height: fit-content;
+  background-color: white;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.25);
+  padding: 30px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.register-header,
+.signin-header {
+  width: fit-content;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 35px;
+}
+
+.register-items-div,
+.signin-items-div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.register-item-name,
+.signin-item-name {
+  width: fit-content;
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  max-width: 30%;
+}
+
+.register-item-input,
+.signin-item-input {
+  width: 60%;
+  border: none;
+  padding: 6px 10px;
+  background-color: #f3ecd3;
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.register-item-input:focus,
+.signin-item-input:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.register-btn,
+.signin-btn {
+  border: 2px solid black;
+  border-radius: 20px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 8px 30px;
+  text-decoration: none;
+  color: white;
+  background-color: black;
+  margin-bottom: 30px;
+}
+
+.register-btn:hover,
+.signin-btn:hover {
+  cursor: pointer;
+  background-color: rgb(72, 72, 72);
+  border: 2px solid rgb(72, 72, 72);
+}
+
+.register-member,
+.signin-member {
+  width: fit-content;
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.register-sign-in,
+.signin-register {
+  margin-left: 8px;
+  text-decoration: none;
+  color: #2cc7bf;
+}
+
+.register-sign-in:hover {
+  cursor: pointer;
+  text-decoration: none;
+  color: #2cc7bf;
+}
