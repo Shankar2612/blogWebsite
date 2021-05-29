@@ -1,0 +1,104 @@
+.userwrite-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
+}
+
+.cover-photo {
+  margin-bottom: 25px;
+}
+
+.title {
+  padding: 0px 50px;
+  letter-spacing: 1px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 35px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.user-div {
+  width: 17%;
+  padding: 10px 20px 10px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffd951;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  margin-bottom: 50px;
+}
+
+.user-photo {
+  width: 40px;
+  border-radius: 50%;
+}
+
+.user-details-div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.date-read-time-div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-name {
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.date {
+  font-family: "Quicksand", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  margin-right: 15px;
+}
+
+.user-main-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-line {
+  width: 300px;
+  height: 3px;
+  border-radius: 15px;
+  background-color: rgb(233, 233, 233);
+  border: none;
+  margin-bottom: 50px;
+}
+
+.user-content {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 50px;
+}
+
+.ending-div {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.end-text {
+  font-family: "Sacramento", cursive;
+  font-size: 25px;
+}
+
+#textarea blockquote {
+  background-color: #ffd951;
+  padding: 12px;
+  text-align: center;
+}

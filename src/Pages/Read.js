@@ -75,7 +75,9 @@ class Read extends React.Component {
         <div className="read-bg-img-container">
             <img className="read-bg-img" src={readBackgroundImage} alt="read-background-img" />
             <div className="read-bg-content">
-                <p className="read-bg-salutation">Good Morning <span style={{color: "#23C0B7", background: "transparent"}}>Mr. {this.props.user.displayName.split(" ")[0]}</span></p>
+                <p className="read-bg-salutation">
+                    {this.props.time === null ? null : this.props.time >= 0 & this.props.time < 12 ? "Good Morning" : this.props.time >= 12 & this.props.time < 16 ? "Good Afternoon" : "Good Evening"}
+                    <span style={{color: "#23C0B7", background: "transparent"}}> Mr. {this.props.user.displayName.split(" ")[0]}</span></p>
                 <p className="read-bg-welcome">Welcome to Blog.io</p>
                 <p style={{marginBottom: 30}} className="read-bg-welcome">Read an article to learn something new today.</p>
                 <p className="read-bg-quote">“Today a reader, tomorrow a leader”</p>

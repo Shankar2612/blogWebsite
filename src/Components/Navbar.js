@@ -25,7 +25,7 @@ const Navbar = (props) => {
             <Link to={"/" + props.user.displayName + "/write"} className="navbar-signed-items">Write</Link>
             <Link to={"/" + props.user.displayName + "/read"} className="navbar-signed-items">Read</Link>
             <button onClick={onSignOut} type="button" className="navbar-signed-items">Logout</button>
-            <Link to="" className="navbar-signed-items">
+            <Link to={"/" + props.user.displayName} className="navbar-signed-items">
                 <img className="navbar-profile-img" src={props.user.photoURL} alt="profile img" />
             </Link>
         </div>}

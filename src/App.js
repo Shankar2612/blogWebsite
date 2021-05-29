@@ -5,23 +5,31 @@ import Register from "./Pages/Register";
 import SignIn from "./Pages/SignIn";
 import Read from "./Pages/Read";
 import Write from "./Pages/Write";
+import UserWrite from "./Pages/UserWrite";
+import User from "./Pages/User";
 import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
 import { auth, db } from "./Firebase/firebase";
 import './App.css';
 
 const App = (props) => {
   
   const [user, setUser] = useState(null);
+  const [time, setTime] = useState(null);
   const [userColor, setUserColor] = useState("");
 
   useEffect(() => {
+    const todayDate = new Date();
+    const hours = todayDate.getHours();
+    setTime(hours);
+
     auth.onAuthStateChanged(function(user) {
       if (user) {
         console.log("user signed in", user);
-        setUser(user);
 
         db.collection("users").doc(user.email).get().then((doc) => {
           setUserColor(doc.data().color);
+          setUser(doc.data());
         })
 
       } else {
@@ -62,11 +70,22 @@ const App = (props) => {
           </Route>
           <Route exact path="/:id/read">
               <Navbar user={user} />
-              <Read userColor={userColor} user={user} />
+              <Read time={time} userColor={userColor} user={user} />
+              <Footer />
           </Route>
           <Route exact path="/:id/write">
               <Navbar user={user} />
-              <Write userColor={userColor} user={user} />
+              <Write time={time} userColor={userColor} user={user} />
+              <Footer />
+          </Route>
+          <Route exact path="/:user/:article">
+              <Navbar user={user} />
+              <UserWrite userColor={userColor} user={user} />
+              <Footer />
+          </Route>
+          <Route exact path={"/" + user.displayName} >
+            <Navbar user={user} />
+            <User user={user} userColor={userColor} />
           </Route>
           <Route path="/:id">
             <div>Error 404</div>

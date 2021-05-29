@@ -1,0 +1,436 @@
+.user-page-div {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.user-page-main-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 80px 50px 50px 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.change-password-color {
+  padding: 20px 0px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.change-password-btn,
+.change-color-btn-div {
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: transparent;
+  margin-left: 20px;
+}
+
+.change-password-btn:hover {
+  cursor: pointer;
+}
+
+.change-color-btn-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.change-color-text {
+  margin: 0px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.dropdown-icon {
+  width: 18px;
+}
+
+.color-dropdown {
+  position: absolute;
+  top: 140%;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  background-color: white;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.color-text-icon-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.color-text-icon-div:hover {
+  cursor: pointer;
+}
+
+.default-div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.box {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+}
+
+.user-page-line {
+  width: 100%;
+  height: 1px;
+  background-color: rgb(209, 209, 209);
+  border: none;
+  margin-bottom: 10px;
+}
+
+.non-default-div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.unselected:hover {
+  cursor: pointer;
+}
+
+.user-img-details-div {
+  width: 80%;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 0px;
+  align-items: center;
+}
+
+.user-img-div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-img-bg-box {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 50%;
+  margin-bottom: 30px;
+}
+
+.user-img {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.edit-img-btn {
+  padding: 8px 25px;
+  color: black;
+  font-family: "Quicksand", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 20px;
+  border: none;
+}
+
+.edit-img-btn:hover {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.edit-img-btn:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.user-details-div {
+  padding: 0px 0px 0px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.user-details-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 8fr;
+  grid-gap: 0px;
+  margin-bottom: 15px;
+}
+
+.user-types-div,
+.user-values-div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.user-name,
+.about-me-title {
+  margin-bottom: 20px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.user-name-value-div,
+.hobbies-div {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.hobbies-div {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.user-name-value-div .user-name-input {
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  border: none;
+  background-color: transparent;
+}
+
+.user-name-value-div .user-name-input:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.name-edit-btn {
+  padding: 3px 10px;
+  color: black;
+  font-family: "Quicksand", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  border-radius: 20px;
+}
+
+.name-edit-btn:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.name-edit-btn:hover {
+  cursor: pointer;
+}
+
+.add-more-hobby-icon:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.add-hobby-div {
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  width: fit-content;
+  border-radius: 15px;
+}
+
+.hobby-input-field {
+  width: 100px;
+  padding: 5px 10px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+  border: none;
+  background-color: transparent;
+  height: 100%;
+}
+
+.hobby-input-field:focus,
+.hobby-save-btn {
+  box-shadow: none;
+  outline: none;
+}
+
+.hobby-save-btn {
+  height: 100%;
+  font-family: "Quicksand", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  padding: 5px 10px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  transform: scale(1.1);
+}
+
+.hobby-save-btn:hover {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.hobbies-text {
+  width: fit-content;
+  color: black;
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 15px;
+  background-color: transparent;
+}
+
+.hobbies-text-delete {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+  margin-right: 15px;
+  padding: 3px 10px;
+}
+
+.hobbies-text-delete .close-icon {
+  display: none;
+  margin-left: 10px;
+}
+
+.hobbies-text-delete:hover .close-icon {
+  display: block;
+  cursor: pointer;
+}
+
+.remaining-hobbies,
+.view-all-articles {
+  margin-right: 15px;
+  color: white;
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.remaining-hobbies:hover,
+.view-all-articles:hover {
+  cursor: pointer;
+}
+
+.remaining-hobby-box {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;
+  height: fit-content;
+  background-color: white;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 8px;
+}
+
+.remaining-hobby-box .each-hobby {
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.remaining-hobby-box .close-icon {
+  margin-left: auto;
+  margin-bottom: 10px;
+}
+
+.remaining-hobby-box .delete-hobby-btn {
+  padding: 2px 5px;
+  border: none;
+  background-color: red;
+  color: white;
+  font-family: "Quicksand", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 15px;
+}
+
+.remaining-hobby-box .delete-icon:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.article-showcase-div {
+  padding: 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 25px;
+  height: 220px;
+  overflow-y: scroll;
+}
+
+.article-showcase-div::-webkit-scrollbar {
+  display: none;
+}
+
+.article-showcase-div .article-div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.article-showcase-div .cover-photo {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.article-showcase-div .article-title-showcase {
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: white;
+}
+
+.article-showcase-btn-div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.article-showcase-read {
+  padding: 5px 15px;
+  background-color: transparent;
+  font-family: "Quicksand", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 15px;
+  transform: scale(1);
+  transition: all 0.2s ease-in-out;
+}
+
+.article-showcase-read:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.article-showcase-read:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}

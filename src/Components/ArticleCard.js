@@ -5,41 +5,6 @@ const ArticleCard = (props) => {
 
     const [color, setColor] = useState(props.color);
 
-    const starsToDisplay = () => {
-
-        if(props.rating === 1) {
-            return <div className="article-grid-star-div">
-                    <img className="article-star" src="https://img.icons8.com/color/22/000000/filled-star--v1.png"/>
-                </div>
-        } else if(props.rating === 2) {
-            return <div className="article-grid-star-div">
-                    <img className="article-star" src="https://img.icons8.com/color/22/000000/filled-star--v1.png"/>
-                    <img className="article-star" src="https://img.icons8.com/color/22/000000/filled-star--v1.png"/>
-                </div>
-        } else if(props.rating === 3) {
-            return <div className="article-grid-star-div">
-                    <img className="article-star" src="https://img.icons8.com/color/22/000000/filled-star--v1.png"/>
-                    <img className="article-star" src="https://img.icons8.com/color/22/000000/filled-star--v1.png"/>
-                    <img className="article-star" src="https://img.icons8.com/color/22/000000/filled-star--v1.png"/>
-                </div>
-        } else if(props.rating === 4) {
-            return <div className="article-grid-star-div">
-                    <img className="article-star" src="https://img.icons8.com/color/22/000000/filled-star--v1.png"/>
-                    <img className="article-star" src="https://img.icons8.com/color/22/000000/filled-star--v1.png"/>
-                    <img className="article-star" src="https://img.icons8.com/color/22/000000/filled-star--v1.png"/>
-                    <img className="article-star" src="https://img.icons8.com/color/22/000000/filled-star--v1.png"/>
-                </div>
-        } else {
-            return <div className="article-grid-star-div">
-                    <img className="article-star" src="https://img.icons8.com/color/22/000000/filled-star--v1.png"/>
-                    <img className="article-star" src="https://img.icons8.com/color/22/000000/filled-star--v1.png"/>
-                    <img className="article-star" src="https://img.icons8.com/color/22/000000/filled-star--v1.png"/>
-                    <img className="article-star" src="https://img.icons8.com/color/22/000000/filled-star--v1.png"/>
-                    <img className="article-star" src="https://img.icons8.com/color/22/000000/filled-star--v1.png"/>
-                </div>
-        }
-    }
-
     const onColorChangeToBlack = () => {
         setColor("black");
     }
@@ -50,8 +15,6 @@ const ArticleCard = (props) => {
 
     return <div className="article-grid-item">
         <img className="article-grid-img" src={props.img} alt="" />
-        
-        {starsToDisplay()}
         <div className="article-grid-author-div">
             <div className="profile-div">
                 <img className="article-profile-img" src={props.authorImg} alt="" />

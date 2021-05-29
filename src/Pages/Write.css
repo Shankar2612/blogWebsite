@@ -2,6 +2,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .write-bg-img-container {
@@ -99,7 +100,8 @@
   }
 }
 
-.write-section {
+.write-section,
+.display-section {
   width: 100%;
   background: white;
   height: fit-content;
@@ -107,14 +109,20 @@
   justify-content: center;
 }
 
-.write {
+.display-section {
+  background-color: black;
+}
+
+.write,
+.display {
   width: 80%;
   padding: 50px 0px;
   display: flex;
   flex-direction: column;
 }
 
-.write-header {
+.write-header,
+.your-work-header {
   width: fit-content;
   font-size: 23px;
   font-weight: 600;
@@ -123,6 +131,10 @@
   margin-bottom: 40px;
   letter-spacing: 1.5px;
   font-family: "Quicksand", sans-serif;
+}
+
+.your-work-header {
+  color: white;
 }
 
 .write-main-grid {
@@ -182,13 +194,18 @@
 
 .write-img-div {
   width: 80%;
-  height: 250px;
+  height: 300px;
+  overflow-y: scroll;
   background: rgb(228, 228, 228);
   margin-bottom: 30px;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.write-img-div::-webkit-scrollbar {
+  display: none;
 }
 
 .write-img-div::after {
@@ -222,6 +239,16 @@
   margin-left: 20px;
 }
 
+.preview-only:nth-child(1) {
+  background-color: black;
+  color: white;
+}
+
+.preview-only:nth-child(1):hover {
+  background-color: white;
+  color: black;
+}
+
 .write-img-upload-btn:hover,
 .preview-btn:hover {
   background: black;
@@ -230,8 +257,9 @@
 }
 
 .write-img {
-  height: 100%;
+  max-height: 100%;
   z-index: 3;
+  width: 100%;
 }
 
 .write-btns {
@@ -239,4 +267,188 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.write-category-select-text,
+.write-title-text {
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  margin-right: 15px;
+}
+
+.write-category-select-div,
+.write-title-div {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.category-div {
+  width: 150px;
+  position: relative;
+}
+
+.category-select-div:hover {
+  cursor: pointer;
+}
+
+.category-select-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 6px;
+}
+
+.select {
+  padding: 7px 10px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.select-div {
+  position: absolute;
+  z-index: 4;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 200px;
+  overflow-y: scroll;
+  background-color: rgb(247, 247, 247);
+  /* background-color: white; */
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 5px 10px;
+}
+
+.select-items {
+  width: 100%;
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 3px;
+  border-bottom: 1px solid rgb(164, 164, 164);
+  padding: 5px 0px;
+  padding-top: 0px;
+}
+
+.select-items:nth-child(10) {
+  border: none;
+}
+
+.select-items:hover {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.title-input {
+  width: 30%;
+  padding: 6px 10px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  border: 2px solid black;
+  border-radius: 6px;
+}
+
+.title-input:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.backgroundDisplay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  background-color: black;
+  opacity: 20%;
+}
+
+.preview-div {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+  background-color: white;
+  width: 60%;
+  min-height: 300px;
+  height: 500px;
+  overflow-y: scroll;
+}
+
+.close-btn-div {
+  padding: 15px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#textarea {
+  width: 100%;
+}
+
+#textarea * {
+  margin-bottom: 10px;
+}
+
+#textarea img {
+  margin-bottom: 0px;
+}
+
+#no-text {
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.close-icon:hover {
+  cursor: pointer;
+}
+
+.textarea-div {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  align-items: center;
+}
+
+.cover-photo {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.textarea-title {
+  width: 100%;
+  font-family: "Quicksand", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.textarea-main-div {
+  width: 60%;
+}
+
+.line {
+  width: 200px;
+  height: 1.5px;
+  background-color: rgb(224, 224, 224);
+  border: none;
+  margin-bottom: 30px;
+}
+
+.work-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 100px;
 }

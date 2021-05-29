@@ -1,0 +1,14 @@
+.footer {
+  padding: 20px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffd951;
+}
+
+.footer-text {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0px;
+}
