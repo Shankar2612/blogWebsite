@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { db, storage} from "../Firebase/firebase";
 import { withRouter } from "react-router-dom";
+import Navbar from "../Components/Navbar";
+import Footer from "../Components/Footer";
 import "./UserWrite.css";
 
 class UserWrite extends React.Component {
@@ -16,23 +18,29 @@ class UserWrite extends React.Component {
     componentDidMount() {
         const textArea = document.getElementById("textarea");
         
-        db.collection("articleData").doc(this.props.user.email).get().then((doc) => {
-            if (doc.exists) {
-                console.log("Document data:", doc.data().data);
-                doc.data().data.map(eachData => {
-                    if(eachData.title === this.props.match.params.article) {
-                        this.setState({articles: eachData, date: new Date(eachData.doc.seconds * 1000), html: eachData.html});
-                        textArea.innerHTML = this.state.html;
-                    }
-                })
-            } else {
-                // doc.data() will be undefined in this case
-                console.log("No such document!");
-                this.setState({articles: {}});
-            }
-        }).catch((error) => {
-            console.log("Error getting document:", error);
-        });
+        if(this.props.location.state === undefined) {
+            this.props.history.push("/");
+        } else {
+            db.collection("articleData").doc(this.props.location.state.email).get().then((doc) => {
+                if (doc.exists) {
+                    console.log("Document data:", doc.data().data);
+                    doc.data().data.map(eachData => {
+                        if(eachData.title === this.props.match.params.article) {
+                            this.setState({articles: eachData, date: new Date(eachData.doc.seconds * 1000), html: eachData.html});
+                            textArea.innerHTML = this.state.html;
+                            const blockquote = document.getElementsByTagName("blockquote");
+                            blockquote.style.backgroundColor = this.props.userColor;
+                        }
+                    })
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                    this.setState({articles: {}});
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+        }
     }
 
     getUsersDate = () => {
@@ -53,12 +61,15 @@ class UserWrite extends React.Component {
 
     render(){
     return (<div className="userwrite-container">
+        <Navbar setUser={this.props.setUser} user={this.props.user} />
         <img className="cover-photo" src={this.state.articles.img} alt="coverphoto" />
         <p className="title">{this.state.articles.title}</p>
-        <div className="user-div">
-            <img className="user-photo" src={this.props.user.photoURL} alt="photo" />
+        <div style={{backgroundColor: this.props.userColor}} className="user-div">
+            <div className="user-photo-container">
+                <img className="user-photo" src={this.props.user.photoURL} alt="photo" />
+            </div>
             <div className="user-details-div">
-                <p className="user-name">{this.props.user.displayName}</p>
+                <p className="user-display-name">{this.props.user.displayName}</p>
                 <div className="date-read-time-div">
                     <p className="date">{this.getUsersDate()}</p>
                     <p className="date">{this.getReadingTime()}</p>
@@ -76,6 +87,7 @@ class UserWrite extends React.Component {
                 <hr style={{margin: 0, width: "27%", marginLeft: 25}} className="user-line" />
             </div>
         </div>
+        <Footer userColor={this.props.userColor} />
     </div>
 )}
 }

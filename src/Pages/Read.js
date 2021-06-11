@@ -3,8 +3,14 @@ import readBackgroundImage from "../Images/readBackgroundImage.png";
 import SurveyCard from "../Components/SurveyCard";
 import CategoryCard from "../Components/CategoryCard";
 import ArticleCard from "../Components/ArticleCard";
-import "./Read.css";
+import Navbar from "../Components/Navbar";
+import Footer from "../Components/Footer";
+import PulseLoader from "react-spinners/PulseLoader";
 import { db } from '../Firebase/firebase';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import "./Read.css";
 
 class Read extends React.Component {
     constructor(){
@@ -13,11 +19,17 @@ class Read extends React.Component {
             survey: [],
             surveyRequired: false,
             categories: [],
-            articles: []
+            articles: [],
+            loading: false,
+            message: "",
+            openSnackbar: false
         }
     }
 
     componentDidMount() {
+        this.setState({loading: true});
+
+        const userData = [];
 
         //Fetching survey items from the database 
         db.collection("surveyItems").get().then((querySnapshot) => {
@@ -35,12 +47,29 @@ class Read extends React.Component {
             }
         })
 
-        //Fetching articles from the database
-        db.collection("articles").get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                this.setState({articles: this.state.articles.concat(doc.data())});
+        setTimeout(() => {
+            //Fetching articles from the database
+            db.collection("articleData").get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    // this.setState({articles: this.state.articles.concat(doc.data()), loading: false});
+                    doc.data().data.map(eachData => {
+                        db.collection("users").doc(doc.id).get().then((doc) => {
+                            console.log(eachData);
+                            this.setState({articles: this.state.articles.concat({
+                                email: doc.id,
+                                img: eachData.img,
+                                title: eachData.title,
+                                category: eachData.category,
+                                html: eachData.html,
+                                profileImg: doc.data().photoURL,
+                                name: doc.data().displayName,
+                                doc: eachData.doc
+                            }), loading: false});
+                        })
+                    })
+                });
             });
-        });
+        }, 1500);
     }
 
     moveToSecondPage = () => {
@@ -60,18 +89,25 @@ class Read extends React.Component {
         db.collection("users").doc(this.props.user.email).update({
             articleCategories: this.state.categories
         }).then(() => {
-            alert(`Thanks for taking the Survey.`);
-            window.location.reload();
+            this.setState({openSnackbar: true, message: `Thanks for taking the Survey.`});
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
         })
         .catch((error) => {
             // The document probably doesn't exist.
-            alert("Error occurred while submitting the survey");
+            this.setState({openSnackbar: true, message: "Error occurred while submitting the survey"});
         });
+    }
+
+    handleCloseSnackbar = () => {
+        this.setState({openSnackbar: false, message: ""});
     }
 
     render(){
     //   console.log(this.state.categories);
       return <div className="read-container">
+        <Navbar setUser={this.props.setUser} user={this.props.user} />
         <div className="read-bg-img-container">
             <img className="read-bg-img" src={readBackgroundImage} alt="read-background-img" />
             <div className="read-bg-content">
@@ -117,14 +153,33 @@ class Read extends React.Component {
         <div className="best-writers-section">
             <div className="best-writers">
                 <p style={{color: "white"}} className="best-writers-title">Read from our best Writers</p>
-                <div className="best-writers-grid-container">
+                {this.state.loading 
+                ? <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}><PulseLoader color={this.props.userColor} loading={this.state.loading} size={12} margin={2} /></div>  
+                : <div className="best-writers-grid-container">
                     {this.state.articles.map(eachSurvey => {
-                        return <ArticleCard img={eachSurvey.img} title={eachSurvey.title} rating={eachSurvey.rating} body={eachSurvey.body} 
-                                            authorImg={eachSurvey.authorImg} time={eachSurvey.time} author={eachSurvey.author} color={this.props.userColor}  />
+                        return <ArticleCard email={eachSurvey.email} img={eachSurvey.img} title={eachSurvey.title} authorImg={eachSurvey.profileImg} html={eachSurvey.html} doc={eachSurvey.doc} author={eachSurvey.name} color={this.props.userColor}  />
                     })}
-                </div>
+                </div>}
             </div>
         </div>
+        <Footer userColor={this.props.userColor} />
+        <Snackbar
+            anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+            }}
+            open={this.state.openSnackbar}
+            autoHideDuration={6000}
+            onClose={this.handleCloseSnackbar}
+            message={this.state.message}
+            action={
+            <React.Fragment>
+                <IconButton size="small" aria-label="close" color="inherit" onClick={this.handleCloseSnackbar}>
+                    <CloseIcon fontSize="small" />
+                </IconButton>
+            </React.Fragment>
+            }
+        />
     </div>  
     }
     

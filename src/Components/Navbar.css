@@ -48,6 +48,7 @@
   transition: transform 0.1s ease-in-out;
   text-decoration: none;
   color: black;
+  letter-spacing: 0px;
 }
 
 .navbar-signed-items {
@@ -79,6 +80,39 @@
 }
 
 .navbar-profile-img {
-  width: 27px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+}
+
+.prof-img-div-navbar {
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  position: relative;
   border-radius: 50%;
+  padding: 0px;
+}
+
+.navbar-menu-logo {
+  display: none;
+}
+
+@media only screen and (max-width: 700px) {
+  .navbar-container {
+    padding: 13px 30px;
+  }
+
+  .navbar-signin-start {
+    display: none;
+  }
+
+  .navbar-menu-logo {
+    display: block;
+  }
+
+  .navbar-menu-logo:hover {
+    cursor: pointer;
+  }
 }

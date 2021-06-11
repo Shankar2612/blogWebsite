@@ -7,120 +7,99 @@ import Read from "./Pages/Read";
 import Write from "./Pages/Write";
 import UserWrite from "./Pages/UserWrite";
 import User from "./Pages/User";
-import Navbar from "./Components/Navbar";
-import Footer from "./Components/Footer";
+import Error from "./Pages/Error";
+import CategoryItem from "./Pages/CategoryItem";
 import { auth, db } from "./Firebase/firebase";
 import './App.css';
 
-const App = (props) => {
-  
-  const [user, setUser] = useState(null);
-  const [time, setTime] = useState(null);
-  const [userColor, setUserColor] = useState("");
+class App extends React.Component {
+  constructor(){
+    super();
+    this.state={
+      user: null,
+      time: null,
+      userColor: "",
+      isLoggedin: false,
+      loading: true
+    }
+  }
 
-  useEffect(() => {
+  componentDidMount(){
+    
+    //Retrieving user details from session storage
+    const email = sessionStorage.getItem("email");
+    const password = sessionStorage.getItem("password");
+
     const todayDate = new Date();
     const hours = todayDate.getHours();
-    setTime(hours);
+    this.setState({time: hours});
 
-    auth.onAuthStateChanged(function(user) {
-      if (user) {
-        console.log("user signed in", user);
+    if(email !== null & password !== null) {
+      db.collection("users").doc(email).get().then((doc) => {
+        this.setState({userColor: doc.data().color, user: doc.data(), isLoggedin: true, loading: false});
+      });
+    } else {
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          console.log("user signed in", user);
+  
+          db.collection("users").doc(user.email).get().then((doc) => {
+            this.setState({userColor: doc.data().color, user: doc.data(), isLoggedin: true, loading: false});
+          });
+  
+        } else {
+          console.log("user signed out");
+          this.setState({user: null, isLoggedin: false, loading: false});
+        }
+      });
+    }
+  }
 
-        db.collection("users").doc(user.email).get().then((doc) => {
-          setUserColor(doc.data().color);
-          setUser(doc.data());
-        })
+  setUser = (newUser) => {
+    this.setState({user: newUser, isLoggedin: false});
+  }
 
-      } else {
-        console.log("user signed out");
-        setUser(null);
-      }
-    });
-  }, [])
-
-  console.log(user);
+  render() {
+    console.log(this.state.user, this.state.isLoggedin);
   return (    
     <div className="app">
-      {user === null
-      ? <Router>
-        <Switch>
-          <Route exact path="/">
-            <Navbar user={user} />
-            <Home user={user} />
-          </Route>
-          <Route exact path="/register">
-              <Navbar user={user} />
-              <Register />
-          </Route>
-          <Route exact path="/signin">
-              <Navbar user={user} />
-              <SignIn />
-          </Route>
-          <Route path="/:id">
-            <div>Error 404</div>
-          </Route>
-        </Switch>
+      <Router>
+          {this.state.loading ? null : 
+          <Switch>
+            <Route exact path="/">
+              <Home setUser={this.setUser} user={this.state.user} />
+            </Route>
+            <Route exact path="/register">
+              {!this.state.isLoggedin ? <Register setUser={this.setUser} user={this.state.user} /> : <Redirect to={"/"} />}
+            </Route>
+            <Route exact path="/signin">
+              {!this.state.isLoggedin ? <SignIn setUser={this.setUser} user={this.state.user} /> : <Redirect to={"/"} />}
+            </Route>
+            <Route exact path="/:id/read">
+              {!this.state.isLoggedin ? <Redirect to={"/"} /> : <Read setUser={this.setUser} time={this.state.time} userColor={this.state.userColor} user={this.state.user} />}
+            </Route>
+            <Route exact path="/:id/write">
+              {!this.state.isLoggedin ? <Redirect to={"/"} /> : <Write setUser={this.setUser} time={this.state.time} userColor={this.state.userColor} user={this.state.user} />}
+            </Route>
+            <Route exact path={this.state.user === null ? null : "/" + this.state.user.displayName}>
+              {!this.state.isLoggedin ? <Redirect to={"/"} /> : <User setUser={this.setUser} user={this.state.user} userColor={this.state.userColor} />}
+            </Route>
+            <Route exact path="/:id/:article">
+              {!this.state.isLoggedin ? <Redirect to={"/"} /> : <UserWrite setUser={this.setUser} user={this.state.user} userColor={this.state.userColor} />}
+            </Route>
+            <Route exact path="/:id">
+              {!this.state.isLoggedin ? <Redirect to={"/"} /> : <CategoryItem setUser={this.setUser} user={this.state.user} userColor={this.state.userColor} />}
+            </Route>
+            <Route path="/:id">
+              <Error user={this.state.user} />
+            </Route>
+          </Switch>}
       </Router>
-      : <Router>
-        <Switch>
-          <Route exact path="/">
-              <Navbar user={user} />
-              <Home user={user} />
-          </Route>
-          <Route exact path="/:id/read">
-              <Navbar user={user} />
-              <Read time={time} userColor={userColor} user={user} />
-              <Footer />
-          </Route>
-          <Route exact path="/:id/write">
-              <Navbar user={user} />
-              <Write time={time} userColor={userColor} user={user} />
-              <Footer />
-          </Route>
-          <Route exact path="/:user/:article">
-              <Navbar user={user} />
-              <UserWrite userColor={userColor} user={user} />
-              <Footer />
-          </Route>
-          <Route exact path={"/" + user.displayName} >
-            <Navbar user={user} />
-            <User user={user} userColor={userColor} />
-          </Route>
-          <Route path="/:id">
-            <div>Error 404</div>
-          </Route>
-        </Switch>
-      </Router>}
-
-      {/* <Router>
-        <Switch>
-          {user !== null
-          ? <Route exact path="/:id/read">
-              <Navbar user={user} />
-              <Read user={user} />
-          </Route>
-          : <Redirect to="/" />}
-          <Route exact path="/">
-            <Navbar user={user} />
-            <Home user={user} />
-          </Route>
-          {user === null
-          ? <Route exact path="/register">
-              <Navbar user={user} />
-              <Register />
-          </Route>
-          : <Redirect to="/" />}
-          {user === null
-          ? <Route exact path="/signin">
-              <Navbar user={user} />
-              <SignIn />
-          </Route>
-          : <Redirect to="/" />}
-        </Switch>
-      </Router> */}
     </div>
   );
+  }
 }
 
 export default App;
+
+      

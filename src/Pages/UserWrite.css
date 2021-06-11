@@ -15,7 +15,7 @@
   font-family: "Quicksand", sans-serif;
   font-size: 35px;
   font-weight: 600;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
 
 .user-div {
@@ -31,8 +31,10 @@
 }
 
 .user-photo {
-  width: 40px;
-  border-radius: 50%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .user-details-div {
@@ -48,7 +50,7 @@
   align-items: center;
 }
 
-.user-name {
+.user-display-name {
   font-family: "Quicksand", sans-serif;
   font-size: 15px;
   font-weight: 600;
@@ -101,4 +103,14 @@
   background-color: #ffd951;
   padding: 12px;
   text-align: center;
+}
+
+.user-photo-container {
+  margin: 0px;
+  padding: 0px;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
 }

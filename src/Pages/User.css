@@ -165,7 +165,7 @@
   outline: none;
 }
 
-.user-details-div {
+.user-details-div-showcase {
   padding: 0px 0px 0px 50px;
   display: flex;
   flex-direction: column;
@@ -423,6 +423,7 @@
   border-radius: 15px;
   transform: scale(1);
   transition: all 0.2s ease-in-out;
+  text-decoration: none;
 }
 
 .article-showcase-read:focus {
@@ -432,5 +433,61 @@
 
 .article-showcase-read:hover {
   transform: scale(1.1);
+  cursor: pointer;
+}
+
+.got-it-div {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: fit-content;
+  background-color: white;
+  flex-direction: column;
+  padding: 5px 10px;
+}
+
+.got-it-text {
+  font-family: "Quicksand", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  margin: 8px;
+}
+
+.black-screen {
+  width: 100%;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+}
+
+.change-password-div {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 201;
+  background-color: white;
+  width: 25%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  align-items: center;
+}
+
+.change-password-div .close-icon-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.close-icon:hover {
   cursor: pointer;
 }

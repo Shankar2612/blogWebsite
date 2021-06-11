@@ -7,6 +7,13 @@ import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import firebase from "firebase";
 import WriteArticleCard from "../Components/WriteArticleCard";
+import Navbar from "../Components/Navbar";
+import Footer from "../Components/Footer";
+import PulseLoader from "react-spinners/PulseLoader";
+import ClipLoader from "react-spinners/ClipLoader";
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import "./Write.css";
 
 class Write extends React.Component {
@@ -19,23 +26,30 @@ class Write extends React.Component {
             displayCategory: "none",
             title: "",
             backgroundDisplay: "none",
-            articles: []
+            articles: [],
+            loading: false,
+            publishLoading: false,
+            message: "",
+            openSnackbar: false
         }
     }
 
     componentDidMount(){
-        db.collection("articleData").doc(this.props.user.email).get().then((doc) => {
-            if (doc.exists) {
-                console.log("Document data:", doc.data().data);
-                this.setState({articles: doc.data().data});
-            } else {
-                // doc.data() will be undefined in this case
-                console.log("No such document!");
-                this.setState({articles: []});
-            }
-        }).catch((error) => {
-            console.log("Error getting document:", error);
-        });
+        this.setState({loading: true});
+        setTimeout(() => {
+            db.collection("articleData").doc(this.props.user.email).get().then((doc) => {
+                if (doc.exists) {
+                    console.log("Document data:", doc.data().data);
+                    this.setState({articles: doc.data().data, loading: false});
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                    this.setState({articles: [], loading: false});
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+        }, 1500);
     }
 
     moveToSecondPage = () => {
@@ -44,15 +58,16 @@ class Write extends React.Component {
 
     onSubmitFile = () => {
         if(convertToRaw(this.state.editorState.getCurrentContent()).blocks[0].text === "") {
-            alert("Please write something before publishing");
+            this.setState({openSnackbar: true, message: "Please write something before publishing"});
         } else if(this.state.file === null) {
-            alert("Please give a cover photo before publishing");
+            this.setState({openSnackbar: true, message: "Please give a cover photo before publishing"});
         } else if(this.state.category === "Select"){
-            alert("Please select the category that best suits your article.");
+            this.setState({openSnackbar: true, message: "Please select the category that best suits your article."});
         } else if(this.state.title === "") {
-            alert("Please give a title to your article");
+            this.setState({openSnackbar: true, message: "Please give a title to your article"});
         }
         else {
+            this.setState({publishLoading: true});
             //uploading the image to cloud storage
             const metadata = {
                 contentType: 'image/jpeg'
@@ -60,7 +75,7 @@ class Write extends React.Component {
 
             const storageRef = storage.ref();
 
-            const uploadTask = storageRef.child(`${this.props.user.email}/articleCoverImages/` + this.state.file.name).put(this.state.file, metadata);
+            const uploadTask = storageRef.child(`${this.props.user.email}/articleCoverImages/` + this.state.title).put(this.state.file, metadata);
 
             uploadTask.on('state_changed', // or 'state_changed'
                 (snapshot) => {
@@ -85,7 +100,7 @@ class Write extends React.Component {
                         break;
                     case 'storage/canceled':
                         // User canceled the upload
-                        alert("Error while ulpoading cover image");
+                        this.setState({openSnackbar: true, message: "Error while ulpoading cover image"});
                         break;
 
                     // ...
@@ -108,8 +123,11 @@ class Write extends React.Component {
                             })
                         })
                         .then(() => {
-                            alert("Congratulations!! Your blog has been published");
-                            window.location.reload();
+                            this.setState({openSnackbar: true, message: "Congratulations!! Your blog has been published"});
+                            this.setState({publishLoading: false});
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1500);
                         })
                         .catch((error) => {
                             console.error("Error while publishing: ", error);
@@ -159,11 +177,16 @@ class Write extends React.Component {
         this.setState({backgroundDisplay: "none"})
     }
 
+    handleCloseSnackbar = () => {
+        this.setState({message: "", openSnackbar: false});
+    }
+
     render(){
         console.log(draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())));
         console.log(this.state.file);
         // console.log(this.state.category);
     return <div className="write-container">
+        <Navbar setUser={this.props.setUser} user={this.props.user} />
         <div className="write-bg-img-container">
             <img className="write-bg-img" src={writeBgImage} alt="" />
             <div className="write-bg-content">
@@ -229,7 +252,7 @@ class Write extends React.Component {
                         </div>
                         <div className="write-btns">
                             {convertToRaw(this.state.editorState.getCurrentContent()).blocks[0].text === "" ? null : <button onClick={this.onOpenPreview} className="preview-btn preview-only" type="button">Preview</button>}
-                            <button onClick={this.onSubmitFile} className="preview-btn" type="button">Publish</button>
+                            {this.state.publishLoading ? <div style={{marginLeft: 20}}><ClipLoader color="black" loading={this.state.publishLoading} size={22} /></div> : <button onClick={this.onSubmitFile} className="preview-btn" type="button">Publish</button>}
                             <button onClick={this.onResetData} className="preview-btn" type="button">Reset</button>
                         </div>
                         {/* <button onClick={this.onSaveFile} type="button">Save</button>
@@ -239,19 +262,20 @@ class Write extends React.Component {
                 <div className="button-div"></div>
             </div>
         </div>
-        {this.state.articles.length === 0 
-            ? null 
-            : <div className="display-section">
-                <div className="display">
-                    <p className="your-work-header">Your Work</p>
-                    <div className="work-grid">
-                        {this.state.articles.map(article => {
-                            return <WriteArticleCard email={this.props.user.email} html={article.html} doc={article.doc} name={this.props.user.displayName} category={article.category} img={article.img} title={article.title} color={this.props.userColor} />
-                        })}
-                    </div>
-                </div>
+        <div className="display-section">
+            <div className="display">
+                <p className="your-work-header">Your Work</p>
+                {this.state.loading 
+                ? <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}><PulseLoader color={this.props.userColor} loading={this.state.loading} size={12} margin={2} /></div> 
+                : this.state.articles === 0 
+                    ? <p style={{color: this.props.userColor}} className="no-articles-text">You don't have any Articles yet. Please start writing.</p> 
+                    : <div className="work-grid">
+                    {this.state.articles.map(article => {
+                        return <WriteArticleCard email={this.props.user.email} html={article.html} doc={article.doc} name={this.props.user.displayName} category={article.category} img={article.img} title={article.title} color={this.props.userColor} />
+                    })}
+                </div>}
             </div>
-        }
+        </div>
         <div style={{display: this.state.backgroundDisplay}} className="backgroundDisplay"></div>
         <div style={{display: this.state.backgroundDisplay}} className="preview-div">
             <div className="close-btn-div">
@@ -268,6 +292,24 @@ class Write extends React.Component {
                     </div>
                 </div>}
         </div>
+        <Footer userColor={this.props.userColor} />
+        <Snackbar
+            anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+            }}
+            open={this.state.openSnackbar}
+            autoHideDuration={6000}
+            onClose={this.handleCloseSnackbar}
+            message={this.state.message}
+            action={
+            <React.Fragment>
+                <IconButton size="small" aria-label="close" color="inherit" onClick={this.handleCloseSnackbar}>
+                    <CloseIcon fontSize="small" />
+                </IconButton>
+            </React.Fragment>
+            }
+        />
     </div>    
     }
     

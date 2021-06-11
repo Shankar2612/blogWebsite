@@ -1,34 +1,209 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
+import { db } from "../Firebase/firebase";
+import PulseLoader from "react-spinners/PulseLoader";
+import Navbar from "../Components/Navbar";
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import "./SignIn.css";
 import "./Register.css";
 
 const Register = (props) => {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [dob, setDOB] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [error, setError] = useState("");
+    const [passwordEye, setPasswordEye] = useState("password");
+    const [confirmPasswordEye, setConfirmPasswordEye] = useState("password");
+    const [loading, setLoading] = useState(false);
+    const [loadingScreen , setLoadingScreen] = useState("none");
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [message, setMessage] = useState("");
+
+    const onRegister = () => {
+        setError("");
+        if(name === "") {
+            setError("name");
+        } else if(email === "") {
+            setError("email");
+        } else if(!email.includes("@") || !email.includes(".com")) {
+            setMessage("Email is invalid");
+            setOpenSnackbar(true);
+            setError("email");
+            setEmail("");
+        } else if(dob === "") {
+            setError("dob");
+        } else if(password === "") {
+            setError("password");
+        } else if(confirmPassword === "") {
+            setError("confirm password");
+        } else if(password !== confirmPassword) {
+            setOpenSnackbar(true);
+            setMessage("Password and Confirm Password doesn't match");
+            setPassword("");
+            setConfirmPassword("");
+        } else if(password.length < 6) {
+            setOpenSnackbar(true);
+            setMessage("Password must be 6 characters long");
+            setPassword("");
+            setConfirmPassword("");
+        } else {
+            setLoadingScreen("flex");
+            setLoading(true);
+
+            db.collection("users").doc(email).get().then((doc) => {
+                if (doc.exists) {
+                    if(doc.data().dob === "" || doc.data().password === "") {
+                        db.collection("users").doc(email).update({
+                            dob: dob,
+                            password: password
+                        })
+                        .then(() => {
+                            setOpenSnackbar(true);
+                            setMessage("This email is already registered with us. You can now Sign In with the password you have provided!");
+                            setName("");
+                            setEmail("");
+                            setDOB("");
+                            setPassword("");
+                            setConfirmPassword("");
+                            setError("");
+                            setLoadingScreen("none");
+                            setLoading(false);
+                        })
+                        .catch((error) => {
+                            // The document probably doesn't exist.
+                            console.error("Error updating document: ", error);
+                            setLoadingScreen("none");
+                            setLoading(false);
+                        });
+                    } else {
+                        setOpenSnackbar(true);
+                        setMessage("This email is already registered with us. You can now Sign In!");
+                        setName("");
+                        setEmail("");
+                        setDOB("");
+                        setPassword("");
+                        setConfirmPassword("");
+                        setError("");
+                        setLoadingScreen("none");
+                        setLoading(false);
+                    }
+                } else {
+                    // doc.data() will be undefined in this case
+                    db.collection("users").doc(email).set({
+                        displayName: name,
+                        email: email,
+                        dob: dob,
+                        hobbies: [],
+                        articleCategories: [],
+                        photoURL: "",
+                        color: "#FFD951",
+                        doc: new Date(),
+                        password: password,
+                        googlePhoto: ""
+                    })
+                    .then(() => {
+                         //Creating articledata collection when a user signs in
+                        db.collection("articleData").doc(email).set({
+                            data: []
+                        })
+                        .then(() => {
+                            setOpenSnackbar(true);
+                            setMessage("You are successfully registered with us. You can now Sign In!");
+                            setName("");
+                            setEmail("");
+                            setDOB("");
+                            setPassword("");
+                            setConfirmPassword("");
+                            setError("");
+                            setLoadingScreen("none");
+                            setLoading(false);
+                        })
+                        .catch((error) => {
+                            setOpenSnackbar(true);
+                            setMessage("Error while creating article data");
+                            setLoadingScreen("none");
+                            setLoading(false);
+                        });
+                    })
+                    .catch((error) => {
+                        setOpenSnackbar(true);
+                        setMessage("Error while Sign In");
+                        setLoadingScreen("none");
+                            setLoading(false);
+                    });
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+                setLoadingScreen("none");
+                setLoading(false);
+            });
+        }
+    }
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+        setMessage("");
+    }
+
     return <div className="register-container">
+        <Navbar setUser={props.setUser} user={props.user} />
         <div className="register-card">
             <p className="register-header">Join Blog.io</p>
             <div className="register-items-div">
                 <p className="register-item-name">Name</p>
-                <input type="text" className="register-item-input" />
+                <input style={error === "name" ? {border: "2px solid red", borderRadius: 5} : {border: "none"}} onChange={(event) => setName(event.target.value)} value={name} type="text" className="register-item-input" />
             </div>
             <div className="register-items-div">
                 <p className="register-item-name">Email</p>
-                <input type="email" className="register-item-input" />
+                <input style={error === "email" ? {border: "2px solid red", borderRadius: 5} : {border: "none"}} onChange={(event) => setEmail(event.target.value)} value={email} type="email" className="register-item-input" />
             </div>
             <div className="register-items-div">
                 <p className="register-item-name">DOB</p>
-                <input type="date" value="" max="2011-12-31" className="register-item-input" />
+                <input style={error === "dob" ? {border: "2px solid red", borderRadius: 5} : {border: "none"}} onChange={(event) => setDOB(event.target.value)} value={dob} type="date" min="1940-01-01" max="2019-12-31" className="register-item-input" />
             </div>
             <div className="register-items-div">
                 <p className="register-item-name">Password</p>
-                <input type="password" className="register-item-input" />
+                <div style={error === "password" ? {border: "2px solid red", borderRadius: 5} : {border: "none", borderRadius: 0}} className="register-input-div">
+                    <input style={{padding: 0}} onChange={(event) => setPassword(event.target.value)} value={password} type={passwordEye} className="register-item-input" />
+                    {passwordEye === "password" ? <img onClick={() => setPasswordEye("text")} className="password-eye-close" src="https://img.icons8.com/fluent-systems-regular/20/000000/visible.png"/> : <img onClick={() => setPasswordEye("password")} className="password-eye-open" src="https://img.icons8.com/fluent-systems-filled/20/000000/visible.png"/>}
+                </div>
             </div>
             <div style={{marginBottom: 30}} className="register-items-div">
                 <p className="register-item-name">Confirm Password</p>
-                <input type="password" className="register-item-input" />
+                <div style={error === "confirm password" ? {border: "2px solid red", borderRadius: 5} : {border: "none", borderRadius: 0}} className="register-input-div">
+                    <input style={{padding: 0}} onChange={(event) => setConfirmPassword(event.target.value)} value={confirmPassword} type={confirmPasswordEye} className="register-item-input" />
+                    {confirmPasswordEye === "password" ? <img onClick={() => setConfirmPasswordEye("text")} className="password-eye-close" src="https://img.icons8.com/fluent-systems-regular/20/000000/visible.png"/> : <img onClick={() => setConfirmPasswordEye("password")} className="password-eye-open" src="https://img.icons8.com/fluent-systems-filled/20/000000/visible.png"/>}
+                </div>
             </div>
-            <button className="register-btn" type="button">Continue</button>
+            <button onClick={onRegister} className="register-btn" type="button">Continue</button>
             <p className="register-member">Already a member? <Link className="register-sign-in" to="/signin">SignIn</Link></p>
         </div>
+        <div style={{display: loadingScreen}} className="loading-screen">
+            <div style={{zIndex: 200, backgroundColor: "transparent"}}>
+                <PulseLoader color="black" loading={loading} size={15} margin={2} />
+            </div>
+        </div>
+        <Snackbar
+            anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+            }}
+            open={openSnackbar}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
+            message={message}
+            action={
+            <React.Fragment>
+                <IconButton size="small" aria-label="close" color="inherit" onClick={handleCloseSnackbar}>
+                    <CloseIcon fontSize="small" />
+                </IconButton>
+            </React.Fragment>
+            }
+        />
     </div>
 }
 
