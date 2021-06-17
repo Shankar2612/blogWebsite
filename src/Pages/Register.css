@@ -136,3 +136,60 @@
   justify-content: center;
   align-items: center;
 }
+
+@media only screen and (max-width: 1050px) {
+  .signin-card,
+  .register-card {
+    width: 30%;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .signin-card,
+  .register-card {
+    width: 40%;
+    padding: 30px;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .signin-card,
+  .register-card {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .signin-card,
+  .register-card {
+    width: 70%;
+  }
+
+  .signin-header,
+  .register-header {
+    font-size: 23px;
+  }
+}
+
+@media only screen and (max-height: 600px) {
+  .register-card {
+    height: 50%;
+    overflow-y: scroll;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .register-item-name,
+  .register-btn,
+  .register-member,
+  .signin-item-name,
+  .signin-btn,
+  .signin-member {
+    font-size: 15px;
+  }
+
+  .register-item-input,
+  .signin-item-input {
+    font-size: 14px;
+  }
+}

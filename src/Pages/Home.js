@@ -54,8 +54,33 @@ const Home = (props) => {
         <div className={"menu-div " + translate}>
             <div className="links">
                 <img onClick={handleMenu} className="close-icon" src="https://img.icons8.com/ios-glyphs/26/000000/multiply.png"/>
-                <Link className="sign-in-link" to="/signin">SignIn</Link>
-                <Link className="sign-in-link" to="/register">Get Started</Link>
+                {props.user === null 
+                ? <div style={{display: "flex", flexDirection: "column"}}>
+                    <Link style={{padding: 10}} className="sign-in-link sign-in-sidebar" to="/signin">SignIn</Link>
+                    <Link style={{padding: 10}} className="sign-in-link sign-in-sidebar" to="/register">Get Started</Link>
+                </div> 
+                : <div style={{display: "flex", flexDirection: "column"}}>
+                    <Link to={"/" + props.user.displayName + "/write"} className="link-container">
+                        <img src="https://img.icons8.com/windows/24/000000/writer-male.png"/>
+                        <p className="sign-in-link">Write</p>
+                    </Link>
+                    <Link to={"/" + props.user.displayName + "/read"} className="link-container">
+                        <img src="https://img.icons8.com/material/24/000000/read.png"/>
+                        <p className="sign-in-link">Read</p>
+                    </Link>
+                    <Link to={"/" + props.user.displayName} className="link-container">
+                        <img src="https://img.icons8.com/material-outlined/24/000000/user-male-circle.png"/>
+                        <p className="sign-in-link">Profile</p>
+                    </Link>
+                    <button className="link-container">
+                        <img src="https://img.icons8.com/material-outlined/24/000000/lock-2.png"/>
+                        <p className="change-password-btn" type="button">Change Password</p>
+                    </button>
+                    <button className="link-container">
+                        <img src="https://img.icons8.com/material-outlined/24/000000/export.png"/>
+                        <p className="change-password-btn" type="button">Log Out</p>
+                    </button>
+                </div>}
             </div>
             <div className="social-media-div">
                 <img className="social-media-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAABmJLR0QA/wD/AP+gvaeTAAABKklEQVQ4jZXUuUoEQRAG4I9BjETMNRE8EBMDMXMFr8AXMBEEH8BY8Ek8MgMjH0AQdV08wNBAQTQRQxevUNCgZ6AdZlr3h4Ke6r9+qrqqhmosYAd3+MztFtuYr4n5hRE08f2HnWK4TqSB9j9ECmtjuiqTlMg7rnCI68j/gqFYKFXOAXoibl/p/qS4WEiIfKA3EunHRAVvjtCdOqGrSGQzwdvKqh4swlN0XkzwGlmebh2+onN3gjdAGLZyquuJoLEK/nuG50RQFUYrfM9daAlzFGMZ48LM7Oa+DQzm/jJahN2p68Z+RL5M8GYzHOG8k9pKaOI4yz9WhTXoFG9Yg0LoQSix3YHIK5bwGAsRHnYKZ/8QOcUkLgpHV4nwgBnhl7IibHeBe9xgT96lGD/qsILQWZplNAAAAABJRU5ErkJggg==" />

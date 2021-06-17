@@ -11,11 +11,14 @@ class UserWrite extends React.Component {
         this.state={
             articles: {},
             date: null,
-            html: ""
+            html: "",
+            screenWidth: null
         }
     }
 
     componentDidMount() {
+        this.setState({screenWidth: window.innerWidth});
+
         const textArea = document.getElementById("textarea");
         
         if(this.props.location.state === undefined) {
@@ -29,7 +32,26 @@ class UserWrite extends React.Component {
                             this.setState({articles: eachData, date: new Date(eachData.doc.seconds * 1000), html: eachData.html});
                             textArea.innerHTML = this.state.html;
                             const blockquote = document.getElementsByTagName("blockquote");
-                            blockquote.style.backgroundColor = this.props.userColor;
+                            const textarea = document.getElementById("textarea");
+                            if(blockquote.length !== 0) {
+                                blockquote.style.backgroundColor = this.props.userColor;
+                            // } else if(textarea.length !== 0) {
+                            //     console.log(textarea.childNodes);
+                            //     for(let i = 0; i < textarea.childNodes.length; i++) {
+                            //         console.log(textarea.childNodes[i]);
+                            //         if(textarea.childNodes[i].childNodes.length !== 0) {
+                            //             // console.log(textarea.childNodes[i], "it's an image tag!!");
+                            //             console.log(textarea.childNodes[i].childNodes[0]);
+                            //         }
+                            //     }
+                            } else if(textarea.length !== 0 & this.state.screenWidth < 550) {
+                                textarea.getElementsByTagName("img")[0].style.width = "100%";
+                            } else {
+                                textarea.getElementsByTagName("img")[0].style.width = "auto";
+                                textarea.getElementsByTagName("img")[0].style.height = "auto";
+                            }
+                            
+
                         }
                     })
                 } else {
@@ -41,6 +63,55 @@ class UserWrite extends React.Component {
                 console.log("Error getting document:", error);
             });
         }
+
+        window.addEventListener("resize", () => {
+            this.setState({screenWidth: window.innerWidth});
+
+            const textArea = document.getElementById("textarea");
+        
+            if(this.props.location.state === undefined) {
+                this.props.history.push("/");
+            } else {
+                db.collection("articleData").doc(this.props.location.state.email).get().then((doc) => {
+                    if (doc.exists) {
+                        console.log("Document data:", doc.data().data);
+                        doc.data().data.map(eachData => {
+                            if(eachData.title === this.props.match.params.article) {
+                                this.setState({articles: eachData, date: new Date(eachData.doc.seconds * 1000), html: eachData.html});
+                                textArea.innerHTML = this.state.html;
+                                const blockquote = document.getElementsByTagName("blockquote");
+                                const textarea = document.getElementById("textarea");
+                                if(blockquote.length !== 0) {
+                                    blockquote.style.backgroundColor = this.props.userColor;
+                                // } else if(textarea.length !== 0) {
+                                //     console.log(textarea.childNodes);
+                                //     for(let i = 0; i < textarea.childNodes.length; i++) {
+                                //         console.log(textarea.childNodes[i]);
+                                //         if(textarea.childNodes[i].childNodes.length !== 0) {
+                                //             // console.log(textarea.childNodes[i], "it's an image tag!!");
+                                //             console.log(textarea.childNodes[i].childNodes[0]);
+                                //         }
+                                //     }
+                                } else if(textarea.length !== 0 & this.state.screenWidth < 550) {
+                                    textarea.getElementsByTagName("img")[0].style.width = "100%";
+                                } else {
+                                    textarea.getElementsByTagName("img")[0].style.width = "auto";
+                                    textarea.getElementsByTagName("img")[0].style.height = "auto";
+                                }
+                                
+
+                            }
+                        })
+                    } else {
+                        // doc.data() will be undefined in this case
+                        console.log("No such document!");
+                        this.setState({articles: {}});
+                    }
+                }).catch((error) => {
+                    console.log("Error getting document:", error);
+                });
+            }
+        });
     }
 
     getUsersDate = () => {

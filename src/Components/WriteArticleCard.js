@@ -62,7 +62,7 @@ const WriteArticleCard = (props) => {
         </div>
         <p className="article-title">{props.title}</p>
         <div className="article-read-div">
-            <Link to={{pathname: "/" + props.name + "/" + props.title, state: props.email}} onMouseEnter={() => {setEditBackground(props.color); setEditTextColor("black")}} onMouseLeave={() => {setEditBackground("transparent"); setEditTextColor(props.color)}} style={{marginRight: 15, border: "2px solid " + props.color, color: editTextColor, backgroundColor: editBackground}} className={"article-read-btn"} type="button">Read</Link>
+            <Link to={{pathname: "/" + props.name + "/" + props.title, state: {email: props.email}}} onMouseEnter={() => {setEditBackground(props.color); setEditTextColor("black")}} onMouseLeave={() => {setEditBackground("transparent"); setEditTextColor(props.color)}} style={{marginRight: 15, border: "2px solid " + props.color, color: editTextColor, backgroundColor: editBackground}} className={"article-read-btn"} type="button">Read</Link>
             {loading ? <ClipLoader color={props.color} loading={loading} size={22} /> : <button onClick={onDeleteArticle} onMouseEnter={() => {setDeleteBackground(props.color); setDeleteTextColor("black")}} onMouseLeave={() => {setDeleteBackground("transparent"); setDeleteTextColor(props.color)}} style={{border: "2px solid " + props.color, color: deleteTextColor, backgroundColor: deleteBackground}} className={"article-read-btn"} type="button">Delete</button>}
         </div>
         <Snackbar

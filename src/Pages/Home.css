@@ -110,6 +110,7 @@
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 20px;
+  color: black;
 }
 
 .home-second-read-link,
@@ -158,6 +159,30 @@
 
 .menu-div {
   display: none;
+}
+
+@media only screen and (max-width: 1050px) {
+  .home-second {
+    grid-gap: 50px;
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .home-second {
+    grid-gap: 50px;
+    width: 100%;
+  }
+
+  .home-second-read-question,
+  .home-second-write-question {
+    font-size: 16px;
+  }
+
+  .home-second-read-link,
+  .home-second-write-link {
+    font-size: 14px;
+  }
 }
 
 @media only screen and (max-width: 1000px) {
@@ -213,12 +238,14 @@
     font-weight: 600;
     text-decoration: none;
     color: black;
-    padding: 10px 15px;
+    margin-left: 20px;
   }
 
-  .menu-div .sign-in-link:hover {
+  .sign-in-sidebar:hover {
     background-color: rgb(236, 236, 236);
     font-weight: 700;
+    cursor: pointer;
+    margin: 0;
   }
 
   .social-media-div {
@@ -242,6 +269,52 @@
   .social-media-div .social-media-icon:hover {
     cursor: pointer;
     transform: scale(1.1);
+  }
+
+  .home-second {
+    grid-gap: 0px;
+  }
+
+  .home-second-read-link,
+  .home-second-write-link {
+    width: 50%;
+  }
+
+  .home-second-read-img,
+  .home-second-write-img {
+    width: 80%;
+  }
+
+  .menu-div .change-password-btn {
+    width: fit-content;
+    font-family: "Quicksand", sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+    color: black;
+    margin: 0px;
+    margin-left: 20px;
+    border: none;
+    border-radius: 0px;
+    text-align: left;
+    padding: 0px;
+  }
+
+  .menu-div .link-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: black;
+    background-color: transparent;
+    border: none;
+  }
+
+  .menu-div .link-container:hover {
+    background-color: rgb(236, 236, 236);
+    font-weight: 700;
+    cursor: pointer;
   }
 }
 
@@ -271,5 +344,38 @@
 
   .home-content-link {
     font-size: 15px;
+  }
+
+  .menu-div {
+    width: 60%;
+  }
+
+  .home-second {
+    grid-template-columns: 1fr;
+    grid-gap: 50px;
+    width: 70%;
+    margin-bottom: 30px;
+  }
+
+  .home-container {
+    height: fit-content;
+    margin-top: 100px;
+  }
+
+  .home-second-read-link,
+  .home-second-write-link {
+    width: 30%;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .home-second {
+    width: 85%;
+  }
+}
+
+@media only screen and (max-width: 370px) {
+  .home-second {
+    width: 95%;
   }
 }

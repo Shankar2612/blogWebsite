@@ -25,3 +25,22 @@
   font-weight: 600;
   margin-left: 15px;
 }
+
+@media only screen and (max-width: 1300px) {
+  .signin-google-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .signin-google-btn {
+    padding: 10px 25px;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .signin-google-text {
+    font-size: 14px;
+  }
+}

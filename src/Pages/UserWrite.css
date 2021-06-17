@@ -114,3 +114,93 @@
   overflow: hidden;
   position: relative;
 }
+
+@media only screen and (max-width: 1250px) {
+  .user-div {
+    width: 20%;
+    padding: 15px 20px 15px 50px;
+  }
+}
+
+@media only screen and (max-width: 1050px) {
+  .user-div {
+    width: 23%;
+  }
+}
+
+@media only screen and (max-width: 950px) {
+  .user-div {
+    width: 27%;
+  }
+
+  .user-content {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .user-div {
+    width: 30%;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .user-div {
+    width: 37%;
+  }
+
+  .user-content {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .user-div {
+    width: 42%;
+  }
+}
+
+@media only screen and (max-width: 560px) {
+  .user-content {
+    width: 87%;
+  }
+}
+
+@media only screen and (max-width: 520px) {
+  .user-div {
+    width: 45%;
+  }
+}
+
+@media only screen and (max-width: 460px) {
+  .user-div {
+    width: 50%;
+    padding-left: 30px;
+  }
+
+  .user-line,
+  .ending-div {
+    width: 270px;
+  }
+
+  .end-text {
+    font-size: 20px;
+  }
+
+  .title {
+    font-size: 32px;
+    padding: 0px 30px;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .user-div {
+    width: 57%;
+  }
+}
+
+@media only screen and (max-width: 370px) {
+  .user-div {
+    width: 63%;
+  }
+}

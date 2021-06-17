@@ -124,3 +124,13 @@
   padding-top: 75%;
   /* background-color: rgb(224, 253, 227); */
 }
+
+@media only screen and (max-width: 500px) {
+  .article-grid-item {
+    min-width: 270px;
+  }
+
+  .article-title {
+    font-size: 17px;
+  }
+}

@@ -22,11 +22,16 @@ class Read extends React.Component {
             articles: [],
             loading: false,
             message: "",
-            openSnackbar: false
+            openSnackbar: false,
+            offset: null
         }
     }
 
     componentDidMount() {
+        //Getting the offset top position of the categories/survey container
+        const container = document.getElementsByClassName("category-container")[0];
+        this.setState({offset: container.offsetTop - 60});
+
         this.setState({loading: true});
 
         const userData = [];
@@ -73,7 +78,7 @@ class Read extends React.Component {
     }
 
     moveToSecondPage = () => {
-        window.scrollTo(0,652);
+        window.scrollTo(0,this.state.offset);
     }
 
     addToCategory = (title) => {

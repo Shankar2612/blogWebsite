@@ -30,11 +30,16 @@ class Write extends React.Component {
             loading: false,
             publishLoading: false,
             message: "",
-            openSnackbar: false
+            openSnackbar: false,
+            offset: null
         }
     }
 
     componentDidMount(){
+        //getting the offset top of the container
+        const container = document.getElementsByClassName("write-section")[0];
+        this.setState({offset: container.offsetTop - 60});
+
         this.setState({loading: true});
         setTimeout(() => {
             db.collection("articleData").doc(this.props.user.email).get().then((doc) => {
@@ -53,7 +58,7 @@ class Write extends React.Component {
     }
 
     moveToSecondPage = () => {
-        window.scrollTo(0,652);
+        window.scrollTo(0,this.state.offset);
     }
 
     onSubmitFile = () => {

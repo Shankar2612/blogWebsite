@@ -32,8 +32,15 @@ const User = (props) => {
     const [loading, setLoading] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [message, setMessage] = useState("");
+    const [screenWidth, setScreenWidth] = useState(null);
 
     useEffect(() => {
+        setScreenWidth(window.innerWidth);
+
+        window.addEventListener("resize", () => {
+            setScreenWidth(window.innerWidth);
+        })
+
         db.collection("articleData").doc(props.user.email).get().then((doc) => {
             if (doc.exists) {
                 setArticleData(doc.data().data);
@@ -371,7 +378,7 @@ const User = (props) => {
 
     return <div className="user-page-div">
         <Navbar setUser={props.setUser} user={props.user} />
-        <img src={userbgImage} alt="user-bg-img" />
+        <img className="user-page-bg-img" src={userbgImage} alt="user-bg-img" />
         <div className="user-page-main-content">
             <div className="change-password-color">
                 <button onClick={openChangePasswordDiv} style={{color: props.userColor, border: "2px solid " + props.userColor}} className="change-password-btn" type="button">Change Password</button>
@@ -396,7 +403,7 @@ const User = (props) => {
                     </div>
                 </button>
             </div>
-            <div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <div style={{width: "100%", height: "fit-content", display: "flex", justifyContent: "center", alignItems: "center"}}>
                 <div className="user-img-details-div">
                     <div className="user-img-div">
                         <div style={{border: "8px solid " +  props.userColor}} className="user-img-bg-box">
@@ -442,7 +449,14 @@ const User = (props) => {
                                     <p style={{color: "white", fontWeight: 500, marginBottom: 0}} className="user-name">{props.user.dob}</p>
                                 </div>
                                 <div className="hobbies-div">
-                                    {hobbies.map((hobby, index) => {
+                                    {screenWidth <= 600 ? hobbies.map((hobby, index) => {
+                                        if(index < 2) {
+                                            return <div style={{background: props.user.color}} className="hobbies-text-delete">
+                                                    <p className="hobbies-text">{hobby}</p>
+                                                    <img onClick={() => removeHobbies(hobby)} className="close-icon" src="https://img.icons8.com/material-outlined/14/000000/multiply--v1.png" alt="close" />
+                                                </div>
+                                        }
+                                    }) : hobbies.map((hobby, index) => {
                                         if(index < 3) {
                                             return <div style={{background: props.user.color}} className="hobbies-text-delete">
                                                     <p className="hobbies-text">{hobby}</p>

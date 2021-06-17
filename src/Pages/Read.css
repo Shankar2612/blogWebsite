@@ -48,6 +48,7 @@
   font-size: 20px;
   font-weight: 500;
   margin-bottom: 5px;
+  text-align: center;
 }
 
 .read-bg-quote {
@@ -69,7 +70,7 @@
 .read-bg-svg-box {
   position: absolute;
   left: 50%;
-  right: 50%;
+  transform: translateX(-50%);
   bottom: 40px;
   z-index: 1;
   height: 50px;
@@ -162,4 +163,112 @@
   background: black;
   display: flex;
   justify-content: center;
+}
+
+@media only screen and (max-width: 1000px) {
+  .read-bg-content {
+    width: 70%;
+  }
+
+  .read-bg-img {
+    object-fit: cover;
+  }
+
+  .survey,
+  .best-writers,
+  .category {
+    width: 90%;
+  }
+
+  .survey-grid-container,
+  .category-grid-container,
+  .best-writers-grid-container {
+    padding: 60px 40px;
+    grid-gap: 60px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .survey-grid-container,
+  .category-grid-container,
+  .best-writers-grid-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .survey-body,
+  .category-body {
+    width: 60%;
+  }
+
+  .read-bg-content {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .category-container {
+    width: 100%;
+  }
+
+  .category-grid-container {
+    padding: 40px 30px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .read-bg-salutation {
+    font-size: 28px;
+  }
+
+  .read-bg-welcome {
+    font-size: 18px;
+  }
+
+  .read-bg-quote {
+    font-size: 18px;
+  }
+
+  .read-bg-author {
+    font-size: 13px;
+  }
+
+  .category-title,
+  .best-writers-title {
+    font-size: 21px;
+  }
+
+  .category-body {
+    font-size: 15px;
+    width: 80%;
+  }
+
+  .category-grid-container,
+  .best-writers-grid-container {
+    padding: 40px 10px;
+    grid-column-gap: 30px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .read-bg-content {
+    align-items: flex-start;
+  }
+
+  .read-bg-welcome {
+    text-align: left;
+  }
+
+  .category-grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  .best-writers-grid-container {
+    display: flex;
+    width: 100%;
+    overflow: scroll;
+  }
+
+  .best-writers-grid-container::-webkit-scrollbar {
+    display: none;
+  }
 }

@@ -48,3 +48,43 @@
 .start-writing-link:hover {
   transform: scale(1.05);
 }
+
+@media only screen and (max-width: 750px) {
+  .category-item-div {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .category-item-div {
+    padding-left: 45px;
+    padding-right: 45px;
+    grid-row-gap: 50px;
+  }
+
+  .no-articles-div {
+    padding: 0px 30px;
+    width: auto;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .category-item-div {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .category-item-div {
+    padding-left: 35px;
+    padding-right: 35px;
+  }
+
+  .no-articles-text {
+    font-size: 16px;
+  }
+
+  .start-writing-link {
+    font-size: 14px;
+  }
+}

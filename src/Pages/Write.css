@@ -14,6 +14,8 @@
 
 .write-bg-img {
   width: 100%;
+  object-fit: cover;
+  height: 100%;
 }
 
 .write-bg-content,
@@ -76,7 +78,7 @@
 .write-bg-svg-box {
   position: absolute;
   left: 50%;
-  right: 50%;
+  transform: translateX(-50%);
   bottom: 40px;
   z-index: 1;
   height: 50px;
@@ -459,4 +461,153 @@
   font-family: "Quicksand", sans-serif;
   font-size: 17px;
   font-weight: 500;
+}
+
+@media only screen and (max-width: 1000px) {
+  .write,
+  .display {
+    width: 90%;
+  }
+
+  .editorjs-container {
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 20px;
+  }
+
+  .write-img-div {
+    width: 100%;
+    height: 250px;
+  }
+
+  .work-grid {
+    grid-gap: 60px;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .write,
+  .display {
+    width: 92%;
+  }
+
+  .editorjs-container {
+    grid-template-columns: 2.6fr 1fr;
+  }
+
+  .write-img-div {
+    height: 200px;
+  }
+
+  .work-grid {
+    grid-gap: 30px;
+    grid-row-gap: 60px;
+  }
+}
+
+@media only screen and (max-width: 780px) {
+  .work-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 40px;
+  }
+
+  .write-bg-content {
+    top: 15%;
+  }
+
+  .write-bg-content,
+  .write-quote-div {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .editorjs-container {
+    grid-template-columns: 1fr;
+    grid-gap: 45px;
+  }
+
+  .write-img-upload-div {
+    grid-row-start: 1;
+    width: 50%;
+  }
+
+  .write-title-div {
+    margin-bottom: 30px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .write-bg-content,
+  .write-quote-div {
+    width: 85%;
+  }
+
+  .write-bg-salutation {
+    font-size: 27px;
+  }
+
+  .write-bg-welcome {
+    font-size: 18px;
+  }
+
+  .write-bg-author {
+    font-size: 13px;
+  }
+
+  .write-header,
+  .your-work-header {
+    font-size: 21px;
+  }
+
+  .write-category-select-text,
+  .write-title-text {
+    font-size: 15px;
+  }
+
+  .select,
+  .title-input,
+  .preview-btn {
+    font-size: 14px;
+  }
+
+  .work-grid {
+    display: flex;
+    width: 100%;
+    overflow-x: scroll;
+  }
+
+  .work-grid::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .write-bg-content,
+  .write-quote-div {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .write-img-upload-div {
+    width: 100%;
+  }
+
+  .write-category-select-div,
+  .write-title-div {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .write-category-select-text,
+  .write-title-text {
+    margin-bottom: 10px;
+  }
+
+  .title-input {
+    width: 60%;
+  }
+
+  .preview-btn {
+    margin-left: 10px;
+  }
 }

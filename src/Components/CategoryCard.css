@@ -38,3 +38,15 @@
 .category-grid-btn:hover .category-grid-title {
   color: white;
 }
+
+@media only screen and (max-width: 1000px) {
+  .category-grid-btn {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .category-grid-title {
+    font-size: 15px;
+  }
+}
