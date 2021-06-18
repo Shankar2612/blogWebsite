@@ -116,3 +116,24 @@
     cursor: pointer;
   }
 }
+
+@media only screen and (min-width: 1800px) {
+  .navbar-container {
+    height: 50px;
+  }
+
+  .navbar-logo {
+    font-size: 35px;
+  }
+
+  .navbar-signin,
+  .navbar-get-started,
+  .navbar-signed-items {
+    font-size: 19px;
+  }
+
+  .prof-img-div-navbar {
+    width: 40px;
+    height: 40px;
+  }
+}

@@ -193,3 +193,32 @@
     font-size: 14px;
   }
 }
+
+@media only screen and (min-width: 1800px) {
+  .signin-card,
+  .register-card {
+    width: 27%;
+  }
+
+  .signin-header {
+    font-size: 28px;
+  }
+
+  .signin-item-name,
+  .signin-item-input,
+  .register-item-name,
+  .register-item-input {
+    font-size: 18px;
+  }
+
+  .signin-btn,
+  .register-btn {
+    font-size: 19px;
+    border-radius: 25px;
+  }
+
+  .register-member,
+  .signin-member {
+    font-size: 19px;
+  }
+}

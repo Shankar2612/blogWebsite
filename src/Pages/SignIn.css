@@ -44,3 +44,13 @@
     font-size: 14px;
   }
 }
+
+@media only screen and (min-width: 1800px) {
+  .signin-google-btn {
+    width: 80%;
+  }
+
+  .signin-google-text {
+    font-size: 18px;
+  }
+}

@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { db, storage} from "../Firebase/firebase";
-import { withRouter } from "react-router-dom";
+import React from 'react';
+import { db, storage, auth } from "../Firebase/firebase";
+import { withRouter, Link } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import "./UserWrite.css";
 
 class UserWrite extends React.Component {
@@ -12,7 +15,11 @@ class UserWrite extends React.Component {
             articles: {},
             date: null,
             html: "",
-            screenWidth: null
+            screenWidth: null,
+            menu: "none",
+            translate: "",
+            openSnackbar: false,
+            message: ""
         }
     }
 
@@ -130,9 +137,44 @@ class UserWrite extends React.Component {
         }
     }
 
+    handleMenu = () => {
+        if(this.state.menu === "none") {
+            this.setState({menu: "block", translate: "translate"});
+        } else {
+            this.setState({menu: "none", translate: ""});
+        }
+    }
+
+    onSignOut = () => {
+        const email = sessionStorage.getItem("email");
+        const password = sessionStorage.getItem("password");
+
+        if(email !== null & password !== null) {
+            sessionStorage.clear();
+            this.setState({openSnackbar: true, message: "You are successfully logged out!"});
+            this.props.setUser(null);
+            setTimeout(() => {
+                this.props.history.push("/");
+            }, 1500);
+        } else {
+            auth.signOut().then(() => {
+                this.setState({openSnackbar: true, message: "You are successfully logged out!"});
+                setTimeout(() => {
+                    this.props.history.push("/");
+                }, 1500);
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+    }
+
+    handleCloseSnackbar = () => {
+        this.setState({openSnackbar: false, message: ""});
+    }
+
     render(){
     return (<div className="userwrite-container">
-        <Navbar setUser={this.props.setUser} user={this.props.user} />
+        <Navbar handleMenu={this.handleMenu} setUser={this.props.setUser} user={this.props.user} />
         <img className="cover-photo" src={this.state.articles.img} alt="coverphoto" />
         <p className="title">{this.state.articles.title}</p>
         <div style={{backgroundColor: this.props.userColor}} className="user-div">
@@ -159,6 +201,63 @@ class UserWrite extends React.Component {
             </div>
         </div>
         <Footer userColor={this.props.userColor} />
+        <Snackbar
+            anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+            }}
+            open={this.state.openSnackbar}
+            autoHideDuration={6000}
+            onClose={this.handleCloseSnackbar}
+            message={this.state.message}
+            action={
+            <React.Fragment>
+                <IconButton size="small" aria-label="close" color="inherit" onClick={this.handleCloseSnackbar}>
+                    <CloseIcon fontSize="small" />
+                </IconButton>
+            </React.Fragment>
+            }
+        />
+        <div style={{display: this.state.menu}} className="menu-screen"></div>
+        <div className={"menu-div " + this.state.translate}>
+            <div className="links">
+                <img onClick={this.handleMenu} className="close-icon" src="https://img.icons8.com/ios-glyphs/26/000000/multiply.png"/>
+                {this.props.user === null 
+                ? <div style={{display: "flex", flexDirection: "column"}}>
+                    <Link style={{padding: 10}} className="sign-in-link sign-in-sidebar" to="/signin">SignIn</Link>
+                    <Link style={{padding: 10}} className="sign-in-link sign-in-sidebar" to="/register">Get Started</Link>
+                </div> 
+                : <div style={{display: "flex", flexDirection: "column"}}>
+                    <Link to={"/" + this.props.user.displayName + "/write"} className="link-container">
+                        <img src="https://img.icons8.com/windows/24/000000/writer-male.png"/>
+                        <p className="sign-in-link">Write</p>
+                    </Link>
+                    <Link to={"/" + this.props.user.displayName + "/read"} className="link-container">
+                        <img src="https://img.icons8.com/material/24/000000/read.png"/>
+                        <p className="sign-in-link">Read</p>
+                    </Link>
+                    <Link to={"/" + this.props.user.displayName} className="link-container">
+                        <img src="https://img.icons8.com/material-outlined/24/000000/user-male-circle.png"/>
+                        <p className="sign-in-link">Profile</p>
+                    </Link>
+                    <button className="link-container">
+                        <img src="https://img.icons8.com/material-outlined/24/000000/lock-2.png"/>
+                        <p className="change-password-btn" type="button">Change Password</p>
+                    </button>
+                    <button onClick={this.onSignOut} className="link-container">
+                        <img src="https://img.icons8.com/material-outlined/24/000000/export.png"/>
+                        <p className="change-password-btn" type="button">Log Out</p>
+                    </button>
+                </div>}
+            </div>
+            <div className="social-media-div">
+                <img className="social-media-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAABmJLR0QA/wD/AP+gvaeTAAABKklEQVQ4jZXUuUoEQRAG4I9BjETMNRE8EBMDMXMFr8AXMBEEH8BY8Ek8MgMjH0AQdV08wNBAQTQRQxevUNCgZ6AdZlr3h4Ke6r9+qrqqhmosYAd3+MztFtuYr4n5hRE08f2HnWK4TqSB9j9ECmtjuiqTlMg7rnCI68j/gqFYKFXOAXoibl/p/qS4WEiIfKA3EunHRAVvjtCdOqGrSGQzwdvKqh4swlN0XkzwGlmebh2+onN3gjdAGLZyquuJoLEK/nuG50RQFUYrfM9daAlzFGMZ48LM7Oa+DQzm/jJahN2p68Z+RL5M8GYzHOG8k9pKaOI4yz9WhTXoFG9Yg0LoQSix3YHIK5bwGAsRHnYKZ/8QOcUkLgpHV4nwgBnhl7IibHeBe9xgT96lGD/qsILQWZplNAAAAABJRU5ErkJggg==" />
+                <img className="social-media-icon" src="https://img.icons8.com/android/18/000000/twitter.png"/>
+                <img className="social-media-icon" src="https://img.icons8.com/material-rounded/18/000000/instagram-new.png"/>
+                <img className="social-media-icon" src="https://img.icons8.com/android/18/000000/linkedin.png"/>
+                <img className="social-media-icon" src="https://img.icons8.com/material-outlined/18/000000/github.png"/>
+            </div>
+        </div>
     </div>
 )}
 }

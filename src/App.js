@@ -56,7 +56,11 @@ class App extends React.Component {
   }
 
   setUser = (newUser) => {
-    this.setState({user: newUser, isLoggedin: false});
+    if (newUser !== null) {
+      this.setState({user: newUser, isLoggedin: true});
+    } else {
+      this.setState({user: newUser, isLoggedin: false});
+    }
   }
 
   render() {

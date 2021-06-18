@@ -379,3 +379,33 @@
     width: 95%;
   }
 }
+
+@media only screen and (min-width: 1800px) {
+  .home-content-quote {
+    font-size: 46px;
+  }
+
+  .home-content-author,
+  .home-content-link {
+    font-size: 19px;
+  }
+
+  .home-content-motivation {
+    font-size: 23px;
+  }
+
+  .home-second-read-img,
+  .home-second-write-img {
+    width: 80%;
+  }
+
+  .home-second-read-question,
+  .home-second-write-question {
+    font-size: 21px;
+  }
+
+  .home-second-read-link,
+  .home-second-write-link {
+    font-size: 18px;
+  }
+}

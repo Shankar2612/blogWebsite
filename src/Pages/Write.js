@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import writeBgImage from "../Images/writeBgImage.png";
 import TextEditor from "../Components/TextEditor"; 
 import { EditorState, convertToRaw } from "draft-js";
-import { db, storage } from "../Firebase/firebase";
+import { db, storage, auth } from "../Firebase/firebase";
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import firebase from "firebase";
@@ -14,6 +14,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import { Link, withRouter } from "react-router-dom";
 import "./Write.css";
 
 class Write extends React.Component {
@@ -31,7 +32,9 @@ class Write extends React.Component {
             publishLoading: false,
             message: "",
             openSnackbar: false,
-            offset: null
+            offset: null,
+            menu: "none",
+            translate: ""
         }
     }
 
@@ -186,12 +189,43 @@ class Write extends React.Component {
         this.setState({message: "", openSnackbar: false});
     }
 
+    handleMenu = () => {
+        if(this.state.menu === "none") {
+            this.setState({menu: "block", translate: "translate"});
+        } else {
+            this.setState({menu: "none", translate: ""});
+        }
+    }
+
+    onSignOut = () => {
+        const email = sessionStorage.getItem("email");
+        const password = sessionStorage.getItem("password");
+
+        if(email !== null & password !== null) {
+            sessionStorage.clear();
+            this.setState({openSnackbar: true, message: "You are successfully logged out!"});
+            this.props.setUser(null);
+            setTimeout(() => {
+                this.props.history.push("/");
+            }, 1500);
+        } else {
+            auth.signOut().then(() => {
+                this.setState({openSnackbar: true, message: "You are successfully logged out!"});
+                setTimeout(() => {
+                    this.props.history.push("/");
+                }, 1500);
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+    }
+
     render(){
         console.log(draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())));
         console.log(this.state.file);
         // console.log(this.state.category);
     return <div className="write-container">
-        <Navbar setUser={this.props.setUser} user={this.props.user} />
+        <Navbar handleMenu={this.handleMenu} setUser={this.props.setUser} user={this.props.user} />
         <div className="write-bg-img-container">
             <img className="write-bg-img" src={writeBgImage} alt="" />
             <div className="write-bg-content">
@@ -315,9 +349,49 @@ class Write extends React.Component {
             </React.Fragment>
             }
         />
+        <div style={{display: this.state.menu}} className="menu-screen"></div>
+        <div className={"menu-div " + this.state.translate}>
+            <div className="links">
+                <img onClick={this.handleMenu} className="close-icon" src="https://img.icons8.com/ios-glyphs/26/000000/multiply.png"/>
+                {this.props.user === null 
+                ? <div style={{display: "flex", flexDirection: "column"}}>
+                    <Link style={{padding: 10}} className="sign-in-link sign-in-sidebar" to="/signin">SignIn</Link>
+                    <Link style={{padding: 10}} className="sign-in-link sign-in-sidebar" to="/register">Get Started</Link>
+                </div> 
+                : <div style={{display: "flex", flexDirection: "column"}}>
+                    <Link to={"/" + this.props.user.displayName + "/write"} className="link-container">
+                        <img src="https://img.icons8.com/windows/24/000000/writer-male.png"/>
+                        <p className="sign-in-link">Write</p>
+                    </Link>
+                    <Link to={"/" + this.props.user.displayName + "/read"} className="link-container">
+                        <img src="https://img.icons8.com/material/24/000000/read.png"/>
+                        <p className="sign-in-link">Read</p>
+                    </Link>
+                    <Link to={"/" + this.props.user.displayName} className="link-container">
+                        <img src="https://img.icons8.com/material-outlined/24/000000/user-male-circle.png"/>
+                        <p className="sign-in-link">Profile</p>
+                    </Link>
+                    <button className="link-container">
+                        <img src="https://img.icons8.com/material-outlined/24/000000/lock-2.png"/>
+                        <p className="change-password-btn" type="button">Change Password</p>
+                    </button>
+                    <button onClick={this.onSignOut} className="link-container">
+                        <img src="https://img.icons8.com/material-outlined/24/000000/export.png"/>
+                        <p className="change-password-btn" type="button">Log Out</p>
+                    </button>
+                </div>}
+            </div>
+            <div className="social-media-div">
+                <img className="social-media-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAABmJLR0QA/wD/AP+gvaeTAAABKklEQVQ4jZXUuUoEQRAG4I9BjETMNRE8EBMDMXMFr8AXMBEEH8BY8Ek8MgMjH0AQdV08wNBAQTQRQxevUNCgZ6AdZlr3h4Ke6r9+qrqqhmosYAd3+MztFtuYr4n5hRE08f2HnWK4TqSB9j9ECmtjuiqTlMg7rnCI68j/gqFYKFXOAXoibl/p/qS4WEiIfKA3EunHRAVvjtCdOqGrSGQzwdvKqh4swlN0XkzwGlmebh2+onN3gjdAGLZyquuJoLEK/nuG50RQFUYrfM9daAlzFGMZ48LM7Oa+DQzm/jJahN2p68Z+RL5M8GYzHOG8k9pKaOI4yz9WhTXoFG9Yg0LoQSix3YHIK5bwGAsRHnYKZ/8QOcUkLgpHV4nwgBnhl7IibHeBe9xgT96lGD/qsILQWZplNAAAAABJRU5ErkJggg==" />
+                <img className="social-media-icon" src="https://img.icons8.com/android/18/000000/twitter.png"/>
+                <img className="social-media-icon" src="https://img.icons8.com/material-rounded/18/000000/instagram-new.png"/>
+                <img className="social-media-icon" src="https://img.icons8.com/android/18/000000/linkedin.png"/>
+                <img className="social-media-icon" src="https://img.icons8.com/material-outlined/18/000000/github.png"/>
+            </div>
+        </div>
     </div>    
     }
     
 }
 
-export default Write;
+export default withRouter(Write);

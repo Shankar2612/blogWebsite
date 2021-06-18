@@ -20,6 +20,8 @@ const SignIn = (props) => {
     const [loadingScreen , setLoadingScreen] = useState("none");
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [message, setMessage] = useState("");
+    const [menu, setMenu] = useState("none");
+    const [translate, setTranslate] = useState("");
 
     const signInWithGoogle = () => {
         auth.signInWithPopup(provider).then(payload => {
@@ -27,6 +29,7 @@ const SignIn = (props) => {
             db.collection("users").doc(payload.user.email).get().then((doc) => {
                 if(doc.exists) {
                     props.history.push("/");
+                    props.setUser(doc.data());
                 } else {
                     db.collection("users").doc(payload.user.email).set({
                         displayName: payload.user.displayName,
@@ -47,6 +50,7 @@ const SignIn = (props) => {
                         })
                         .then(() => {
                             props.history.push("/");
+                            props.setUser(doc.data());
                         })
                         .catch((error) => {
                             setMessage("Error while creating article data");
@@ -68,6 +72,7 @@ const SignIn = (props) => {
             db.collection("users").doc(payload.user.email).get().then((doc) => {
                 if(doc.exists) {
                     props.history.push("/");
+                    props.setUser(doc.data());
                 } else {
                     db.collection("users").doc(payload.user.email).set({
                         displayName: payload.user.displayName,
@@ -88,6 +93,7 @@ const SignIn = (props) => {
                         })
                         .then(() => {
                             props.history.push("/");
+                            props.setUser(doc.data());
                         })
                         .catch((error) => {
                             setMessage("Error while creating article data");
@@ -172,8 +178,18 @@ const SignIn = (props) => {
         setMessage("");
     }
 
+    const handleMenu = () => {
+        if(menu === "none") {
+            setMenu("block");
+            setTranslate("translate");
+        } else {
+            setMenu("none");
+            setTranslate("");
+        }
+    }
+
     return <div className="signin-container">
-        <Navbar setUser={props.setUser} user={props.user} />
+        <Navbar handleMenu={handleMenu} setUser={props.setUser} user={props.user} />
         <div className="signin-card">
             <p className="signin-header">Welcome Back!</p>
             <div className="signin-items-div">
@@ -222,6 +238,46 @@ const SignIn = (props) => {
             </React.Fragment>
             }
         />
+        <div style={{display: menu}} className="menu-screen"></div>
+        <div className={"menu-div " + translate}>
+            <div className="links">
+                <img onClick={handleMenu} className="close-icon" src="https://img.icons8.com/ios-glyphs/26/000000/multiply.png"/>
+                {props.user === null 
+                ? <div style={{display: "flex", flexDirection: "column"}}>
+                    <Link style={{padding: 10}} className="sign-in-link sign-in-sidebar" to="/signin">SignIn</Link>
+                    <Link style={{padding: 10}} className="sign-in-link sign-in-sidebar" to="/register">Get Started</Link>
+                </div> 
+                : <div style={{display: "flex", flexDirection: "column"}}>
+                    <Link to={"/" + props.user.displayName + "/write"} className="link-container">
+                        <img src="https://img.icons8.com/windows/24/000000/writer-male.png"/>
+                        <p className="sign-in-link">Write</p>
+                    </Link>
+                    <Link to={"/" + props.user.displayName + "/read"} className="link-container">
+                        <img src="https://img.icons8.com/material/24/000000/read.png"/>
+                        <p className="sign-in-link">Read</p>
+                    </Link>
+                    <Link to={"/" + props.user.displayName} className="link-container">
+                        <img src="https://img.icons8.com/material-outlined/24/000000/user-male-circle.png"/>
+                        <p className="sign-in-link">Profile</p>
+                    </Link>
+                    <button className="link-container">
+                        <img src="https://img.icons8.com/material-outlined/24/000000/lock-2.png"/>
+                        <p className="change-password-btn" type="button">Change Password</p>
+                    </button>
+                    <button className="link-container">
+                        <img src="https://img.icons8.com/material-outlined/24/000000/export.png"/>
+                        <p className="change-password-btn" type="button">Log Out</p>
+                    </button>
+                </div>}
+            </div>
+            <div className="social-media-div">
+                <img className="social-media-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAABmJLR0QA/wD/AP+gvaeTAAABKklEQVQ4jZXUuUoEQRAG4I9BjETMNRE8EBMDMXMFr8AXMBEEH8BY8Ek8MgMjH0AQdV08wNBAQTQRQxevUNCgZ6AdZlr3h4Ke6r9+qrqqhmosYAd3+MztFtuYr4n5hRE08f2HnWK4TqSB9j9ECmtjuiqTlMg7rnCI68j/gqFYKFXOAXoibl/p/qS4WEiIfKA3EunHRAVvjtCdOqGrSGQzwdvKqh4swlN0XkzwGlmebh2+onN3gjdAGLZyquuJoLEK/nuG50RQFUYrfM9daAlzFGMZ48LM7Oa+DQzm/jJahN2p68Z+RL5M8GYzHOG8k9pKaOI4yz9WhTXoFG9Yg0LoQSix3YHIK5bwGAsRHnYKZ/8QOcUkLgpHV4nwgBnhl7IibHeBe9xgT96lGD/qsILQWZplNAAAAABJRU5ErkJggg==" />
+                <img className="social-media-icon" src="https://img.icons8.com/android/18/000000/twitter.png"/>
+                <img className="social-media-icon" src="https://img.icons8.com/material-rounded/18/000000/instagram-new.png"/>
+                <img className="social-media-icon" src="https://img.icons8.com/android/18/000000/linkedin.png"/>
+                <img className="social-media-icon" src="https://img.icons8.com/material-outlined/18/000000/github.png"/>
+            </div>
+        </div>
     </div>
 }
 

@@ -62,3 +62,10 @@
   cursor: pointer;
   transform: scale(1.07);
 }
+
+@media only screen and (max-width: 600px) {
+  .error {
+    padding: 0px 30px;
+    width: auto;
+  }
+}

@@ -3,14 +3,20 @@ import homeImage from "../Images/homeImage.png";
 import homeBackground from "../Images/homeBackground.jpg";
 import read from "../Images/read.png";
 import write from "../Images/write.png";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Navbar from "../Components/Navbar";
+import { auth } from "../Firebase/firebase";
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import "./Home.css";
 
 const Home = (props) => {
 
     const [menu, setMenu] = useState("none");
     const [translate, setTranslate] = useState("");
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [message, setMessage] = useState("");
 
     console.log(props.user);
 
@@ -22,6 +28,36 @@ const Home = (props) => {
             setMenu("none");
             setTranslate("");
         }
+    }
+
+    const onSignOut = () => {
+        const email = sessionStorage.getItem("email");
+        const password = sessionStorage.getItem("password");
+
+        if(email !== null & password !== null) {
+            sessionStorage.clear();
+            setOpenSnackbar(true);
+            setMessage("You are successfully logged out!");
+            props.setUser(null);
+            setTimeout(() => {
+                props.history.push("/");
+            }, 1500);
+        } else {
+            auth.signOut().then(() => {
+                setOpenSnackbar(true);
+                setMessage("You are successfully logged out!");
+                setTimeout(() => {
+                    props.history.push("/");
+                }, 1500);
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+    }
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+        setMessage("");
     }
 
     return <div className="home-container">
@@ -50,6 +86,23 @@ const Home = (props) => {
                 <Link className="home-second-write-link" to={"/" + props.user.displayName + "/write"}>Start Writing</Link>
             </div>
         </div>}
+        <Snackbar
+            anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+            }}
+            open={openSnackbar}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
+            message={message}
+            action={
+            <React.Fragment>
+                <IconButton size="small" aria-label="close" color="inherit" onClick={handleCloseSnackbar}>
+                    <CloseIcon fontSize="small" />
+                </IconButton>
+            </React.Fragment>
+            }
+        />
         <div style={{display: menu}} className="menu-screen"></div>
         <div className={"menu-div " + translate}>
             <div className="links">
@@ -76,7 +129,7 @@ const Home = (props) => {
                         <img src="https://img.icons8.com/material-outlined/24/000000/lock-2.png"/>
                         <p className="change-password-btn" type="button">Change Password</p>
                     </button>
-                    <button className="link-container">
+                    <button onClick={onSignOut} className="link-container">
                         <img src="https://img.icons8.com/material-outlined/24/000000/export.png"/>
                         <p className="change-password-btn" type="button">Log Out</p>
                     </button>
@@ -93,4 +146,4 @@ const Home = (props) => {
     </div>
 }
 
-export default Home;
+export default withRouter(Home);
