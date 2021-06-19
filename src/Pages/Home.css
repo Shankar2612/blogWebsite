@@ -14,7 +14,7 @@
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px; */
   position: relative;
-  height: 100%;
+  height: 100vh;
 }
 
 .home-second {
@@ -371,6 +371,7 @@
 @media only screen and (max-width: 450px) {
   .home-second {
     width: 85%;
+    margin-bottom: 0px;
   }
 }
 
@@ -407,5 +408,28 @@
   .home-second-read-link,
   .home-second-write-link {
     font-size: 18px;
+  }
+}
+
+@media only screen and (max-height: 700px) {
+  .home-container {
+    height: fit-content;
+  }
+
+  .home-second {
+    margin-top: 100px;
+    margin-bottom: 40px;
+  }
+}
+
+@media only screen and (max-height: 500px) {
+  .home-container,
+  .home {
+    min-height: 600px;
+    height: fit-content;
+  }
+
+  .home-content-section {
+    z-index: 9;
   }
 }

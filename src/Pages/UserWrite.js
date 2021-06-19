@@ -41,7 +41,7 @@ class UserWrite extends React.Component {
                             const blockquote = document.getElementsByTagName("blockquote");
                             const textarea = document.getElementById("textarea");
                             if(blockquote.length !== 0) {
-                                blockquote.style.backgroundColor = this.props.userColor;
+                                blockquote.style.backgroundColor = this.props.user.color;
                             // } else if(textarea.length !== 0) {
                             //     console.log(textarea.childNodes);
                             //     for(let i = 0; i < textarea.childNodes.length; i++) {
@@ -89,7 +89,7 @@ class UserWrite extends React.Component {
                                 const blockquote = document.getElementsByTagName("blockquote");
                                 const textarea = document.getElementById("textarea");
                                 if(blockquote.length !== 0) {
-                                    blockquote.style.backgroundColor = this.props.userColor;
+                                    blockquote.style.backgroundColor = this.props.user.color;
                                 // } else if(textarea.length !== 0) {
                                 //     console.log(textarea.childNodes);
                                 //     for(let i = 0; i < textarea.childNodes.length; i++) {
@@ -177,7 +177,7 @@ class UserWrite extends React.Component {
         <Navbar handleMenu={this.handleMenu} setUser={this.props.setUser} user={this.props.user} />
         <img className="cover-photo" src={this.state.articles.img} alt="coverphoto" />
         <p className="title">{this.state.articles.title}</p>
-        <div style={{backgroundColor: this.props.userColor}} className="user-div">
+        <div style={{backgroundColor: this.props.user.color}} className="user-div">
             <div className="user-photo-container">
                 <img className="user-photo" src={this.props.user.photoURL} alt="photo" />
             </div>
@@ -200,7 +200,7 @@ class UserWrite extends React.Component {
                 <hr style={{margin: 0, width: "27%", marginLeft: 25}} className="user-line" />
             </div>
         </div>
-        <Footer userColor={this.props.userColor} />
+        <Footer userColor={this.props.user.color} />
         <Snackbar
             anchorOrigin={{
             vertical: 'top',

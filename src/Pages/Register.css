@@ -222,3 +222,32 @@
     font-size: 19px;
   }
 }
+
+@media only screen and (max-height: 600px) {
+  .signin-card,
+  .register-card {
+    height: 270px;
+    overflow-y: scroll;
+  }
+
+  .signin-card::-webkit-scrollbar,
+  .register-card::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media only screen and (max-height: 450px) {
+  .signin-card,
+  .register-card {
+    height: 200px;
+    overflow-y: scroll;
+  }
+}
+
+@media only screen and (max-height: 380px) {
+  .signin-card,
+  .register-card {
+    height: 130px;
+    overflow-y: scroll;
+  }
+}

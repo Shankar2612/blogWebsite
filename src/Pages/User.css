@@ -506,6 +506,10 @@
   .user-img-details-div {
     width: 90%;
   }
+
+  .change-password-div {
+    width: 30%;
+  }
 }
 
 @media only screen and (max-width: 850px) {
@@ -527,6 +531,10 @@
   .user-details-div-showcase {
     padding: 0px;
     margin-bottom: 50px;
+  }
+
+  .change-password-div {
+    width: 45%;
   }
 }
 
@@ -551,6 +559,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+
+  .change-password-div {
+    width: 56%;
   }
 }
 
@@ -581,10 +593,18 @@
   .user-name-value-div .user-name-input {
     font-size: 15px;
   }
+
+  .change-password-div {
+    width: 70%;
+  }
 }
 
 @media only screen and (max-width: 350px) {
   .remaining-hobbies {
     margin-right: 5px;
+  }
+
+  .change-password-div {
+    width: 80%;
   }
 }

@@ -125,6 +125,12 @@
   /* background-color: rgb(224, 253, 227); */
 }
 
+@media only screen and (max-width: 550px) {
+  .article-grid-item {
+    margin-right: 40px;
+  }
+}
+
 @media only screen and (max-width: 500px) {
   .article-grid-item {
     min-width: 270px;

@@ -39,7 +39,8 @@ class CategoryItem extends React.Component {
                                     html: eachData.html,
                                     profileImg: doc.data().photoURL,
                                     name: doc.data().displayName,
-                                    doc: eachData.doc
+                                    doc: eachData.doc,
+                                    email: doc.id
                                 }), loading: false});
                             })
                         } else {
@@ -90,19 +91,19 @@ class CategoryItem extends React.Component {
     return <div className="category-item-container">
         <Navbar handleMenu={this.handleMenu} setUser={this.props.setUser} user={this.props.user} />
         {this.state.loading 
-        ? <div style={{width: "100%", height: "100vh",backgroundColor: "black", display: "flex", justifyContent: "center", alignItems: "center"}}><PulseLoader color={this.props.userColor} loading={this.state.loading} size={12} margin={2} /></div>
+        ? <div style={{width: "100%", height: "100vh",backgroundColor: "black", display: "flex", justifyContent: "center", alignItems: "center"}}><PulseLoader color={this.props.user.color} loading={this.state.loading} size={12} margin={2} /></div>
         : this.state.articles.length === 0 
             ? <div className="no-articles-div">
                 <img className="no-article-logo" src="https://img.icons8.com/flat-round/128/000000/bookmark-book.png" alt="noarticle-logo" />
-                <p className="no-articles-text">There are no articles related to <span style={{color: this.props.userColor, fontWeight: 600}}>{this.props.match.params.id}</span>. Be the first one to write about <span style={{color: this.props.userColor, fontWeight: 600}}>{this.props.match.params.id}</span>.</p>
-                <Link style={{color: this.props.userColor, border: "2px solid " + this.props.userColor}} className="start-writing-link" to={"/" + this.props.user.displayName + "/write"}>Start Writing</Link>
+                <p className="no-articles-text">There are no articles related to <span style={{color: this.props.user.color, fontWeight: 600}}>{this.props.match.params.id}</span>. Be the first one to write about <span style={{color: this.props.user.color, fontWeight: 600}}>{this.props.match.params.id}</span>.</p>
+                <Link style={{color: this.props.user.color, border: "2px solid " + this.props.user.color}} className="start-writing-link" to={"/" + this.props.user.displayName + "/write"}>Start Writing</Link>
             </div>
             : <div className="category-item-div">
             {this.state.articles.map(article => {
-                return <ArticleCard img={article.img} title={article.title} authorImg={article.profileImg} html={article.html} doc={article.doc} author={article.name} color={this.props.userColor}  />
+                return <ArticleCard email={article.email} img={article.img} title={article.title} authorImg={article.profileImg} html={article.html} doc={article.doc} author={article.name} color={this.props.user.color}  />
             })}
         </div>}
-        <Footer userColor={this.props.userColor} />
+        <Footer userColor={this.props.user.color} />
         <Snackbar
             anchorOrigin={{
             vertical: 'top',

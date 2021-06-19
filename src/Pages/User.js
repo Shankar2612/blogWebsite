@@ -418,21 +418,21 @@ const User = (props) => {
         <img className="user-page-bg-img" src={userbgImage} alt="user-bg-img" />
         <div className="user-page-main-content">
             <div className="change-password-color">
-                <button onClick={openChangePasswordDiv} style={{color: props.userColor, border: "2px solid " + props.userColor}} className="change-password-btn" type="button">Change Password</button>
-                <button style={{color: "black", border: "2px solid " + props.userColor, background: props.userColor}} className="change-color-btn-div" type="button">
+                <button onClick={openChangePasswordDiv} style={{color: props.user.color, border: "2px solid " + props.user.color}} className="change-password-btn" type="button">Change Password</button>
+                <button style={{color: "black", border: "2px solid " + props.user.color, background: props.user.color}} className="change-color-btn-div" type="button">
                     <div onClick={onOpenColorDropdown} className="color-text-icon-div">
                         <p className="change-color-text">Change Color</p>
                         <img className="dropdown-icon" src={dropdownIcon} alt="dropdown" />
                     </div>
                     <div style={{display: displayColorDropdown}} className="color-dropdown">
                         <div className="default-div">
-                            <div style={{background: props.userColor}} className="box"></div>
+                            <div style={{background: props.user.color}} className="box"></div>
                             <p className="">applied</p>
                         </div>
                         <hr className="user-page-line" />
                         <div className="non-default-div">
                             {colorList.map(color => {
-                                if(color !== props.userColor) {
+                                if(color !== props.user.color) {
                                     return <div onClick={() => onSelectColor(color)} style={{background: color, marginRight: 0}} className="box unselected"></div>
                                 }
                             })}
@@ -443,7 +443,7 @@ const User = (props) => {
             <div style={{width: "100%", height: "fit-content", display: "flex", justifyContent: "center", alignItems: "center"}}>
                 <div className="user-img-details-div">
                     <div className="user-img-div">
-                        <div style={{border: "8px solid " +  props.userColor}} className="user-img-bg-box">
+                        <div style={{border: "8px solid " +  props.user.color}} className="user-img-bg-box">
                             <img className="user-img" src={props.user.photoURL === "" ? props.user.googlePhoto : props.user.photoURL} alt="profile-img" />
                         </div>
                         {/* <button  type="button">
@@ -451,7 +451,7 @@ const User = (props) => {
                             <input style={{display: "none"}} type="file" />
                         </button> */}
                         <label>
-                            <p style={{background: props.userColor}} className="edit-img-btn">
+                            <p style={{background: props.user.color}} className="edit-img-btn">
                                 <input onChange={onEditProfileImage} style={{display: "none"}} type="file" />
                                 <p>Select Image</p>
                             </p>
@@ -460,17 +460,17 @@ const User = (props) => {
                     <div className="user-details-div-showcase">
                         <div className="user-details-grid">
                             <div className="user-types-div">
-                                <p style={{color: props.userColor}} className="user-name">Name</p>
-                                <p style={{color: props.userColor}} className="user-name">Email</p>
-                                <p style={{color: props.userColor}} className="user-name">Age</p>
-                                <p style={{color: props.userColor}} className="user-name">DOB</p>
-                                <p style={{color: props.userColor}} className="user-name">Hobby</p>
-                                <p style={{color: props.userColor}} className="user-name">Articles</p>
+                                <p style={{color: props.user.color}} className="user-name">Name</p>
+                                <p style={{color: props.user.color}} className="user-name">Email</p>
+                                <p style={{color: props.user.color}} className="user-name">Age</p>
+                                <p style={{color: props.user.color}} className="user-name">DOB</p>
+                                <p style={{color: props.user.color}} className="user-name">Hobby</p>
+                                <p style={{color: props.user.color}} className="user-name">Articles</p>
                             </div>
                             <div className="user-values-div">
                                 <div style={{position: "relative"}} className="user-name-value-div">
                                     <input onChange={onChangeUsername} type="text" style={{color: "white", fontWeight: 500, marginRight: 10}} className="user-name-input" value={username} />
-                                    <button onClick={onSubmitChangeName} className="name-edit-btn" style={{display: nameEditBtn, background: props.userColor}} type="button">Save</button>
+                                    <button onClick={onSubmitChangeName} className="name-edit-btn" style={{display: nameEditBtn, background: props.user.color}} type="button">Save</button>
                                     <div style={{display: gotitDiv}} className="got-it-div">
                                         <img onClick={closeGotitDiv} style={{width: 16, marginLeft: "auto"}} className="close-icon" src="https://img.icons8.com/material-outlined/16/000000/multiply--v1.png" alt="close" />
                                         <p className="got-it-text">You can edit your name by typing on it and click on save button</p>
@@ -607,7 +607,7 @@ const User = (props) => {
                         <img src="https://img.icons8.com/material-outlined/24/000000/user-male-circle.png"/>
                         <p className="sign-in-link">Profile</p>
                     </Link>
-                    <button className="link-container">
+                    <button onClick={openChangePasswordDiv} className="link-container">
                         <img src="https://img.icons8.com/material-outlined/24/000000/lock-2.png"/>
                         <p className="change-password-btn" type="button">Change Password</p>
                     </button>

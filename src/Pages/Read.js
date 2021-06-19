@@ -148,7 +148,7 @@ class Read extends React.Component {
     }
 
     render(){
-    //   console.log(this.state.categories);
+      console.log(this.props.user);
       return <div className="read-container">
         <Navbar handleMenu={this.handleMenu} setUser={this.props.setUser} user={this.props.user} />
         <div className="read-bg-img-container">
@@ -197,15 +197,15 @@ class Read extends React.Component {
             <div className="best-writers">
                 <p style={{color: "white"}} className="best-writers-title">Read from our best Writers</p>
                 {this.state.loading 
-                ? <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}><PulseLoader color={this.props.userColor} loading={this.state.loading} size={12} margin={2} /></div>  
+                ? <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}><PulseLoader color={this.props.user.color} loading={this.state.loading} size={12} margin={2} /></div>  
                 : <div className="best-writers-grid-container">
                     {this.state.articles.map(eachSurvey => {
-                        return <ArticleCard email={eachSurvey.email} img={eachSurvey.img} title={eachSurvey.title} authorImg={eachSurvey.profileImg} html={eachSurvey.html} doc={eachSurvey.doc} author={eachSurvey.name} color={this.props.userColor}  />
+                        return <ArticleCard email={eachSurvey.email} img={eachSurvey.img} title={eachSurvey.title} authorImg={eachSurvey.profileImg} html={eachSurvey.html} doc={eachSurvey.doc} author={eachSurvey.name} color={this.props.user.color}  />
                     })}
                 </div>}
             </div>
         </div>
-        <Footer userColor={this.props.userColor} />
+        <Footer userColor={this.props.user.color} />
         <Snackbar
             anchorOrigin={{
             vertical: 'top',
@@ -268,4 +268,4 @@ class Read extends React.Component {
     
 }
 
-export default Read;
+export default withRouter(Read);

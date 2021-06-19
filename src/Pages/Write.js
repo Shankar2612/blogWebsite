@@ -305,12 +305,12 @@ class Write extends React.Component {
             <div className="display">
                 <p className="your-work-header">Your Work</p>
                 {this.state.loading 
-                ? <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}><PulseLoader color={this.props.userColor} loading={this.state.loading} size={12} margin={2} /></div> 
+                ? <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}><PulseLoader color={this.props.user.color} loading={this.state.loading} size={12} margin={2} /></div> 
                 : this.state.articles === 0 
-                    ? <p style={{color: this.props.userColor}} className="no-articles-text">You don't have any Articles yet. Please start writing.</p> 
+                    ? <p style={{color: this.props.user.color}} className="no-articles-text">You don't have any Articles yet. Please start writing.</p> 
                     : <div className="work-grid">
                     {this.state.articles.map(article => {
-                        return <WriteArticleCard email={this.props.user.email} html={article.html} doc={article.doc} name={this.props.user.displayName} category={article.category} img={article.img} title={article.title} color={this.props.userColor} />
+                        return <WriteArticleCard email={this.props.user.email} html={article.html} doc={article.doc} name={this.props.user.displayName} category={article.category} img={article.img} title={article.title} color={this.props.user.color} />
                     })}
                 </div>}
             </div>
@@ -331,7 +331,7 @@ class Write extends React.Component {
                     </div>
                 </div>}
         </div>
-        <Footer userColor={this.props.userColor} />
+        <Footer userColor={this.props.user.color} />
         <Snackbar
             anchorOrigin={{
             vertical: 'top',

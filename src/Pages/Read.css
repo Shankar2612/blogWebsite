@@ -272,3 +272,10 @@
     display: none;
   }
 }
+
+@media only screen and (max-height: 450px) {
+  .read-bg-img-container,
+  .read-bg-img {
+    height: 600px;
+  }
+}

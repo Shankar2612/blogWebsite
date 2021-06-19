@@ -574,6 +574,7 @@
     display: flex;
     width: 100%;
     overflow-x: scroll;
+    grid-gap: 0px;
   }
 
   .work-grid::-webkit-scrollbar {
@@ -609,5 +610,15 @@
 
   .preview-btn {
     margin-left: 10px;
+  }
+  .write-img-div {
+    height: 250px;
+  }
+}
+
+@media only screen and (max-height: 450px) {
+  .write-bg-img-container,
+  .write-bg-img {
+    height: 600px;
   }
 }

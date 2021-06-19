@@ -170,6 +170,10 @@
   .user-div {
     width: 45%;
   }
+
+  .title {
+    font-size: 31px;
+  }
 }
 
 @media only screen and (max-width: 460px) {
