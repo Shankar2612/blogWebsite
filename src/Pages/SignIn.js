@@ -196,13 +196,14 @@ const SignIn = (props) => {
                 <p className="signin-item-name">Email</p>
                 <input style={error === "email" ? {border: "2px solid red", borderRadius: 5} : {border: "none"}} onChange={(event) => setEmail(event.target.value)} value={email} type="email" className="signin-item-input" />
             </div>
-            <div style={{marginBottom: 30}} className="signin-items-div">
+            <div className="signin-items-div">
                 <p className="signin-item-name">Password</p>
                 <div style={error === "password" ? {border: "2px solid red", borderRadius: 5} : {border: "none", borderRadius: 0}} className="register-input-div">
                     <input style={{padding: 0}} onChange={(event) => setPassword(event.target.value)} value={password} type={passwordEye} className="signin-item-input" />
                     {passwordEye === "password" ? <img onClick={() => setPasswordEye("text")} className="password-eye-close" src="https://img.icons8.com/fluent-systems-regular/20/000000/visible.png"/> : <img onClick={() => setPasswordEye("password")} className="password-eye-open" src="https://img.icons8.com/fluent-systems-filled/20/000000/visible.png"/>}
                 </div>
             </div>
+            <Link to="/user/forgotpassword" className="forgot-password">Forgot Password?</Link>
             <button onClick={onSignIn} style={{marginBottom: 20}} className="signin-btn" type="button">Continue</button>
             <p style={{marginBottom: 20}}>OR</p>
             <button onClick={signInWithGoogle} className="signin-google-btn" type="button">

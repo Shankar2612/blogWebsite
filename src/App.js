@@ -9,6 +9,8 @@ import UserWrite from "./Pages/UserWrite";
 import User from "./Pages/User";
 import Error from "./Pages/Error";
 import CategoryItem from "./Pages/CategoryItem";
+import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
+import ChangePasswordPage from "./Pages/ChangePasswordPage";
 import { auth, db } from "./Firebase/firebase";
 import './App.css';
 
@@ -65,6 +67,7 @@ class App extends React.Component {
 
   render() {
     console.log(this.state.user, this.state.isLoggedin);
+    console.log(localStorage.getItem("otp"));
   return (    
     <div className="app">
       <Router>
@@ -72,6 +75,12 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/">
               <Home setUser={this.setUser} user={this.state.user} />
+            </Route>
+            <Route exact path="/user/forgotpassword">
+              {!this.state.isLoggedin ? <ForgotPasswordPage /> : <Redirect to={"/"} />}
+            </Route>
+            <Route exact path="/user/changepassword">
+              {!this.state.isLoggedin && localStorage.getItem("otp") !== null ? <ChangePasswordPage /> : <Redirect to="/user/forgotpassword" />}
             </Route>
             <Route exact path="/register">
               {!this.state.isLoggedin ? <Register setUser={this.setUser} user={this.state.user} /> : <Redirect to={"/"} />}

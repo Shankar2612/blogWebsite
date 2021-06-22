@@ -26,6 +26,19 @@
   margin-left: 15px;
 }
 
+.forgot-password {
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: blue;
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
 @media only screen and (max-width: 1300px) {
   .signin-google-btn {
     width: 100%;
