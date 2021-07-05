@@ -475,7 +475,7 @@
   z-index: 200;
 }
 
-.change-password-div {
+.change-password-div-two {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -490,7 +490,7 @@
   align-items: center;
 }
 
-.change-password-div .close-icon-container {
+.change-password-div-two .close-icon-container {
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -507,7 +507,7 @@
     width: 90%;
   }
 
-  .change-password-div {
+  .change-password-div-two {
     width: 30%;
   }
 }
@@ -533,7 +533,7 @@
     margin-bottom: 50px;
   }
 
-  .change-password-div {
+  .change-password-div-two {
     width: 45%;
   }
 }
@@ -561,7 +561,7 @@
     transform: translate(-50%, -50%);
   }
 
-  .change-password-div {
+  .change-password-div-two {
     width: 56%;
   }
 }
@@ -594,7 +594,7 @@
     font-size: 15px;
   }
 
-  .change-password-div {
+  .change-password-div-two {
     width: 70%;
   }
 }
@@ -604,7 +604,7 @@
     margin-right: 5px;
   }
 
-  .change-password-div {
+  .change-password-div-two {
     width: 80%;
   }
 }

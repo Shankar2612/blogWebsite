@@ -548,7 +548,7 @@ const User = (props) => {
             </div>
         </div>
         <div style={{display: changePasswordDiv}} className="black-screen"></div>
-        <div style={{display: changePasswordDiv}} className="change-password-div">
+        <div style={{display: changePasswordDiv}} className="change-password-div-two">
             <div className="close-icon-container">
                 <img onClick={openChangePasswordDiv} className="close-icon" src="https://img.icons8.com/ios-glyphs/26/000000/multiply.png"/>
             </div>

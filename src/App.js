@@ -79,9 +79,6 @@ class App extends React.Component {
             <Route exact path="/user/forgotpassword">
               {!this.state.isLoggedin ? <ForgotPasswordPage /> : <Redirect to={"/"} />}
             </Route>
-            <Route exact path="/user/changepassword">
-              {!this.state.isLoggedin && localStorage.getItem("otp") !== null ? <ChangePasswordPage /> : <Redirect to="/user/forgotpassword" />}
-            </Route>
             <Route exact path="/register">
               {!this.state.isLoggedin ? <Register setUser={this.setUser} user={this.state.user} /> : <Redirect to={"/"} />}
             </Route>

@@ -5,6 +5,7 @@ import { withRouter, Redirect } from "react-router-dom";
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import ChangePasswordPage from "./ChangePasswordPage";
 import "./ForgotPasswordPage.css";
 
 class ForgotPasswordPage extends React.Component {
@@ -18,6 +19,7 @@ class ForgotPasswordPage extends React.Component {
             otpLoading: false,
             message: "",
             openSnackbar: false,
+            changePasswordPage: false
         }
     }
 
@@ -40,7 +42,7 @@ class ForgotPasswordPage extends React.Component {
                 if (doc.exists) {
                     //The Email exists and we are ready to send an email
 
-                    fetch("http://localhost:8080/email", {
+                    fetch("https://blogwebsite-server.herokuapp.com/email", {
                         method: "POST",
                         headers: {"Content-Type": "application/json"},
                         body: JSON.stringify({
@@ -49,10 +51,15 @@ class ForgotPasswordPage extends React.Component {
                     })
                     .then(response => response.json())
                     .then(data => {
-                        this.setState({loading: false, blackScreen: "flex", message: "Email sent!! Please check your mailbox.", openSnackbar: true});
-                        localStorage.setItem("otp", data.otp);
-                        localStorage.setItem("email", this.state.email);
-                        this.setState({email: ""});
+                        if(data.message) {
+                            console.log(data);
+                            this.setState({loading: false, blackScreen: "flex", message: "Email sent!! Please check your mailbox.", openSnackbar: true});
+                            localStorage.setItem("otp", data.otp);
+                            localStorage.setItem("email", this.state.email);
+                            this.setState({email: ""});
+                        } else {
+                            console.log(data.error);
+                        }
                     })
                 } else {
                     // doc.data() will be undefined in this case
@@ -76,8 +83,7 @@ class ForgotPasswordPage extends React.Component {
             this.setState({otp: "",message: "Invalid OTP! Please Enter the correct OTP.", openSnackbar: true});
         } else {
             //Everything goes correct
-            this.setState({otp: "", blackScreen: "none"});
-            this.props.history.push("/user/changepassword");
+            this.setState({otp: "", blackScreen: "none", changePasswordPage: true});
         }
     }
 
@@ -86,37 +92,41 @@ class ForgotPasswordPage extends React.Component {
     }
 
     render() {
-        return <div className="forgot-password-div">
-            <div className="forgot-password-box">
-                <p className="heading">Forgot Password?</p>
-                <p className="not-worry-text">Don't worry!! We are here to help you out. Just type in the email address associated with <span className="highlight">Blog.io</span>.</p>
-                <p className="note"><span style={{color: "red", fontWeight: 500}}>Note:</span> Please give your original working email because we will send an OTP to that address.</p>
-                <input onChange={this.onInputChange} value={this.state.email} type="email" placeholder="Email" className="forgot-email" />
-                {this.state.loading ? <PulseLoader color="black" loading={this.state.loading} size={12} margin={2} /> : <button onClick={this.sendEmail} className="email-send-btn" type="button">Send Email</button>}
-            </div>
-            <div style={{display: this.state.blackScreen}} className="black-screen"></div>
-            <div style={{display: this.state.blackScreen}} className="otp-box">
-                <p className="enter-otp-text">Enter the OTP received in mail.</p>
-                <input onChange={this.onOtpInputChange} value={this.state.otp} type="text" className="enter-otp-input" />
-                {this.state.otpLoading ? <PulseLoader color="black" loading={this.state.loading} size={12} margin={2} /> : <button onClick={this.onSubmitOTP} type="button" className="continue-otp">Continue</button>}
-            </div>
-            <Snackbar
-                anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
-                }}
-                open={this.state.openSnackbar}
-                autoHideDuration={6000}
-                onClose={this.handleCloseSnackbar}
-                message={this.state.message}
-                action={
-                <React.Fragment>
-                    <IconButton size="small" aria-label="close" color="inherit" onClick={this.handleCloseSnackbar}>
-                        <CloseIcon fontSize="small" />
-                    </IconButton>
-                </React.Fragment>
-                }
-            />
+        return <div>
+            {this.state.changePasswordPage 
+                ? <ChangePasswordPage /> 
+                : <div className="forgot-password-div">
+                <div className="forgot-password-box">
+                    <p className="heading">Forgot Password?</p>
+                    <p className="not-worry-text">Don't worry!! We are here to help you out. Just type in the email address associated with <span className="highlight">Blog.io</span>.</p>
+                    <p className="note"><span style={{color: "red", fontWeight: 500}}>Note:</span> Please give your original working email because we will send an OTP to that address.</p>
+                    <input onChange={this.onInputChange} value={this.state.email} type="email" placeholder="Email" className="forgot-email" />
+                    {this.state.loading ? <PulseLoader color="black" loading={this.state.loading} size={12} margin={2} /> : <button onClick={this.sendEmail} className="email-send-btn" type="button">Send Email</button>}
+                </div>
+                <div style={{display: this.state.blackScreen}} className="black-screen"></div>
+                <div style={{display: this.state.blackScreen}} className="otp-box">
+                    <p className="enter-otp-text">Enter the OTP received in mail.</p>
+                    <input onChange={this.onOtpInputChange} value={this.state.otp} type="text" className="enter-otp-input" />
+                    {this.state.otpLoading ? <PulseLoader color="black" loading={this.state.loading} size={12} margin={2} /> : <button onClick={this.onSubmitOTP} type="button" className="continue-otp">Continue</button>}
+                </div>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                    }}
+                    open={this.state.openSnackbar}
+                    autoHideDuration={6000}
+                    onClose={this.handleCloseSnackbar}
+                    message={this.state.message}
+                    action={
+                    <React.Fragment>
+                        <IconButton size="small" aria-label="close" color="inherit" onClick={this.handleCloseSnackbar}>
+                            <CloseIcon fontSize="small" />
+                        </IconButton>
+                    </React.Fragment>
+                    }
+                />
+            </div>}
         </div>
     }
 }
