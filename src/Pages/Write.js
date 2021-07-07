@@ -176,7 +176,7 @@ class Write extends React.Component {
     }
 
     onOpenPreview = () => {
-        this.setState({backgroundDisplay: "block"})
+        this.setState({backgroundDisplay: "block"});
         const textArea = document.getElementById("textarea");
         textArea.innerHTML = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
     }
@@ -221,8 +221,7 @@ class Write extends React.Component {
     }
 
     render(){
-        console.log(draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())));
-        console.log(this.state.file);
+        console.log(this.state.articles);
         // console.log(this.state.category);
     return <div className="write-container">
         <Navbar handleMenu={this.handleMenu} setUser={this.props.setUser} user={this.props.user} />
@@ -230,7 +229,7 @@ class Write extends React.Component {
             <img className="write-bg-img" src={writeBgImage} alt="" />
             <div className="write-bg-content">
                 <p className="write-bg-salutation">{this.props.time === null ? null : this.props.time >= 0 & this.props.time < 12 ? "Good Morning" : this.props.time >= 12 & this.props.time < 16 ? "Good Afternoon" : "Good Evening"}
-                <span style={{color: "#23C0B7", background: "transparent"}}> Mr. {this.props.user.displayName.split(" ")[0]}</span></p>
+                <span style={{color: "#23C0B7", background: "transparent"}}> {this.props.user.displayName.split(" ")[0]}</span></p>
                 <p className="write-bg-welcome">Welcome to Blog.io</p>
                 <p style={{marginBottom: 30}} className="write-bg-welcome">Write down your thoughts and ideas to spread knowledge.</p>
             </div>
@@ -306,7 +305,7 @@ class Write extends React.Component {
                 <p className="your-work-header">Your Work</p>
                 {this.state.loading 
                 ? <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}><PulseLoader color={this.props.user.color} loading={this.state.loading} size={12} margin={2} /></div> 
-                : this.state.articles === 0 
+                : this.state.articles.length === 0 
                     ? <p style={{color: this.props.user.color}} className="no-articles-text">You don't have any Articles yet. Please start writing.</p> 
                     : <div className="work-grid">
                     {this.state.articles.map(article => {
@@ -315,7 +314,7 @@ class Write extends React.Component {
                 </div>}
             </div>
         </div>
-        <div style={{display: this.state.backgroundDisplay}} className="backgroundDisplay"></div>
+        <div style={{display: this.state.backgroundDisplay, opacity: "20%"}} className="backgroundDisplay"></div>
         <div style={{display: this.state.backgroundDisplay}} className="preview-div">
             <div className="close-btn-div">
                 <img className="close-icon" onClick={this.closePreview} src="https://img.icons8.com/metro/24/000000/multiply.png" alt="closebtn" />

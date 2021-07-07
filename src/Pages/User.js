@@ -413,6 +413,24 @@ const User = (props) => {
         }
     }
 
+    const updateDOB = (event) => {
+        db.collection("users").doc(props.user.email).update({
+            dob: event.target.value
+        })
+        .then(() => {
+            setOpenSnackbar(true);
+            setMessage("Your DOB successfully updated");
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+        })
+        .catch((error) => {
+            // The document probably doesn't exist.
+            setOpenSnackbar(true);
+            setMessage("Error occurred while updating your DOB.");
+        });
+    }
+
     return <div className="user-page-div">
         <Navbar handleMenu={handleMenu} setUser={props.setUser} user={props.user} />
         <img className="user-page-bg-img" src={userbgImage} alt="user-bg-img" />
@@ -480,10 +498,10 @@ const User = (props) => {
                                     <p style={{color: "white", fontWeight: 500, marginBottom: 0}} className="user-name">{props.user.email}</p>
                                 </div>
                                 <div className="user-name-value-div">
-                                    <p style={{color: "white", fontWeight: 500, marginBottom: 0}} className="user-name">{getAge(props.user.dob)}</p>
+                                    <p style={{color: "white", fontWeight: 500, marginBottom: 0}} className="user-name">{props.user.dob === "" ? "DOB not provided" : getAge(props.user.dob)}</p>
                                 </div>
                                 <div className="user-name-value-div">
-                                    <p style={{color: "white", fontWeight: 500, marginBottom: 0}} className="user-name">{props.user.dob}</p>
+                                    <p style={{color: "white", fontWeight: 500, marginBottom: 0}} className="user-name">{props.user.dob === "" ? <input className="register-input-div" onChange={updateDOB} type="date" min="1940-01-01" max="2019-12-31" /> : props.user.dob}</p>
                                 </div>
                                 <div className="hobbies-div">
                                     {screenWidth <= 500 ? null : screenWidth <= 600 ? hobbies.map((hobby, index) => {

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, withRouter } from "react-router-dom";
 import googleLogo from "../Images/googleLogo.png";
 import facebookLogo from "../Images/facebookLogo.png";
-import { provider, auth, fbprovider, db } from "../Firebase/firebase";
+import githubLogo from "../Images/githubLogo.png";
+import { provider, auth, fbprovider, db, gitprovider } from "../Firebase/firebase";
 import PulseLoader from "react-spinners/PulseLoader";
 import Navbar from "../Components/Navbar";
 import Snackbar from '@material-ui/core/Snackbar';
@@ -25,7 +26,6 @@ const SignIn = (props) => {
 
     const signInWithGoogle = () => {
         auth.signInWithPopup(provider).then(payload => {
-            console.log(payload);
             db.collection("users").doc(payload.user.email).get().then((doc) => {
                 if(doc.exists) {
                     props.history.push("/");
@@ -64,19 +64,22 @@ const SignIn = (props) => {
                 }
             })
         })
+        .catch(error => {
+            setMessage(error.message);
+            setOpenSnackbar(true);
+        })
     }
 
-    const signInWithFacebook = () => {
-        auth.signInWithPopup(fbprovider).then(payload => {
-            console.log(payload);
-            db.collection("users").doc(payload.user.email).get().then((doc) => {
+    const signInWithGit = () => {
+        auth.signInWithPopup(gitprovider).then((result) => {
+            db.collection("users").doc(result.user.email).get().then((doc) => {
                 if(doc.exists) {
                     props.history.push("/");
                     props.setUser(doc.data());
                 } else {
-                    db.collection("users").doc(payload.user.email).set({
-                        displayName: payload.user.displayName,
-                        email: payload.user.email,
+                    db.collection("users").doc(result.user.email).set({
+                        displayName: result.additionalUserInfo.username,
+                        email: result.user.email,
                         dob: "",
                         hobbies: [],
                         articleCategories: [],
@@ -84,11 +87,11 @@ const SignIn = (props) => {
                         color: "#FFD951",
                         doc: new Date(),
                         password: "",
-                        googlePhoto: payload.user.photoURL
+                        googlePhoto: result.user.photoURL
                     })
                     .then(() => {
                          //Creating articledata collection when a user signs in
-                        db.collection("articleData").doc(payload.user.email).set({
+                        db.collection("articleData").doc(result.user.email).set({
                             data: []
                         })
                         .then(() => {
@@ -106,7 +109,11 @@ const SignIn = (props) => {
                     });
                 }
             })
-        })
+          }).catch((error) => {
+            // Handle Errors here.
+            setMessage(error.message);
+            setOpenSnackbar(true);
+          });
     }
 
     const onSignIn = () => {
@@ -210,9 +217,9 @@ const SignIn = (props) => {
                 <img className="signin-google-logo" src={googleLogo} alt="" />
                 <p className="signin-google-text">Sign In with Google</p>
             </button>
-            <button onClick={signInWithFacebook} style={{marginBottom: 30}} className="signin-google-btn" type="button">
-                <img className="signin-google-logo" src={facebookLogo} alt="" />
-                <p className="signin-google-text">Sign In with Facebook</p>
+            <button onClick={signInWithGit} style={{marginBottom: 30}} className="signin-google-btn" type="button">
+                <img className="signin-google-logo" src={githubLogo} alt="" />
+                <p className="signin-google-text">Sign In with Github</p>
             </button>
             <p className="signin-member">New to Blog.io? <Link className="signin-register" to="/register">SignUp</Link></p>
         </div>

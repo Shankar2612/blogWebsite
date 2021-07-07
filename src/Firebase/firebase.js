@@ -17,5 +17,6 @@ const auth = firebase.auth();
 const storage = firebase.storage();
 const provider = new firebase.auth.GoogleAuthProvider();
 const fbprovider = new firebase.auth.FacebookAuthProvider();
+const gitprovider = new firebase.auth.GithubAuthProvider();
 
-export { auth, storage, provider, fbprovider, db };
+export { auth, storage, provider, fbprovider, db, gitprovider };

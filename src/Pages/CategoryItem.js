@@ -37,7 +37,8 @@ class CategoryItem extends React.Component {
                                     title: eachData.title,
                                     category: eachData.category,
                                     html: eachData.html,
-                                    profileImg: doc.data().photoURL,
+                                    googlePhoto: doc.data().googlePhoto,
+                                    photoURL: doc.data().photoURL,
                                     name: doc.data().displayName,
                                     doc: eachData.doc,
                                     email: doc.id
@@ -100,7 +101,7 @@ class CategoryItem extends React.Component {
             </div>
             : <div className="category-item-div">
             {this.state.articles.map(article => {
-                return <ArticleCard email={article.email} img={article.img} title={article.title} authorImg={article.profileImg} html={article.html} doc={article.doc} author={article.name} color={this.props.user.color}  />
+                return <ArticleCard email={article.email} img={article.img} title={article.title} googlePhoto={article.googlePhoto} photoURL={article.photoURL} html={article.html} doc={article.doc} author={article.name} color={this.props.user.color}  />
             })}
         </div>}
         <Footer userColor={this.props.user.color} />

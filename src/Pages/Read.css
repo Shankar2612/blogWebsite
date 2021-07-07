@@ -233,11 +233,13 @@
   }
 
   .category-title,
-  .best-writers-title {
+  .best-writers-title,
+  .survey-title {
     font-size: 21px;
   }
 
-  .category-body {
+  .category-body,
+  .survey-body {
     font-size: 15px;
     width: 80%;
   }
@@ -258,7 +260,8 @@
     text-align: left;
   }
 
-  .category-grid-container {
+  .category-grid-container,
+  .survey-grid-container {
     grid-template-columns: 1fr;
   }
 

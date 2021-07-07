@@ -33,8 +33,9 @@
 .user-photo {
   width: 100%;
   position: absolute;
-  top: 0;
+  top: 50%;
   left: 0;
+  transform: translateY(-50%);
 }
 
 .user-details-div {

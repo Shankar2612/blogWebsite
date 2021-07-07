@@ -370,7 +370,6 @@
   bottom: 0;
   z-index: 5;
   background-color: black;
-  opacity: 20%;
 }
 
 .preview-div {
@@ -534,6 +533,14 @@
   .write-title-div {
     margin-bottom: 30px;
   }
+
+  .preview-div {
+    width: 75%;
+  }
+
+  .textarea-main-div {
+    width: 70%;
+  }
 }
 
 @media only screen and (max-width: 550px) {
@@ -613,6 +620,26 @@
   }
   .write-img-div {
     height: 250px;
+  }
+
+  .preview-div {
+    width: 85%;
+  }
+
+  .textarea-main-div {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-height: 620px) {
+  .preview-div {
+    height: 60%;
+    overflow-y: scroll;
+    min-height: 0px;
+  }
+
+  .preview-div::-webkit-scrollbar {
+    display: none;
   }
 }
 

@@ -173,16 +173,17 @@ class UserWrite extends React.Component {
     }
 
     render(){
+        console.log(this.props.location.state);
     return (<div className="userwrite-container">
         <Navbar handleMenu={this.handleMenu} setUser={this.props.setUser} user={this.props.user} />
         <img className="cover-photo" src={this.state.articles.img} alt="coverphoto" />
         <p className="title">{this.state.articles.title}</p>
         <div style={{backgroundColor: this.props.user.color}} className="user-div">
             <div className="user-photo-container">
-                <img className="user-photo" src={this.props.user.photoURL} alt="photo" />
+                <img className="user-photo" src={this.props.location.state.photoURL === "" ? this.props.location.state.googlePhoto : this.props.location.state.photoURL} alt="photo" />
             </div>
             <div className="user-details-div">
-                <p className="user-display-name">{this.props.user.displayName}</p>
+                <p className="user-display-name">{this.props.location.state.name}</p>
                 <div className="date-read-time-div">
                     <p className="date">{this.getUsersDate()}</p>
                     <p className="date">{this.getReadingTime()}</p>

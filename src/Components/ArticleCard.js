@@ -34,7 +34,7 @@ const ArticleCard = (props) => {
         </div>
         <div className="article-grid-author-div">
             <div className="profile-div">
-                <img className="article-profile-img" src={props.authorImg} alt="" />
+                <img className="article-profile-img" src={props.photoURL === "" ? props.googlePhoto : props.photoURL} alt="" />
             </div>
             <p className="article-author-name">{props.author}</p>
             <p className="article-read-time">* {getTime()}</p>
@@ -42,7 +42,7 @@ const ArticleCard = (props) => {
         <p className="article-title">{props.title}</p>
         <p style={{color: props.color}} className="article-body">{props.body}</p>
         <div className="article-read-div">
-            <Link to={{pathname: "/" + props.author + "/" + props.title, state: {email: props.email}}} style={{color: color, border: "2px solid " + color, backgroundColor: bgColor}} onMouseEnter={onColorChangeToBlack} onMouseLeave={onColorChangeToNormal} className="article-read-btn" type="button">Read</Link>
+            <Link to={{pathname: "/" + props.author + "/" + props.title, state: {email: props.email, googlePhoto: props.googlePhoto, photoURL: props.photoURL, name: props.author}}} style={{color: color, border: "2px solid " + color, backgroundColor: bgColor}} onMouseEnter={onColorChangeToBlack} onMouseLeave={onColorChangeToNormal} className="article-read-btn" type="button">Read</Link>
         </div>
     </div>
 }

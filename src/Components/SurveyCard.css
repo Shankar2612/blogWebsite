@@ -11,13 +11,14 @@
 }
 
 .survey-grid-btn {
-  padding: 10px 30px;
+  padding: 10px;
   width: 55%;
   border: 2px solid black;
   border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: transparent;
 }
 
 .survey-grid-title {
@@ -39,4 +40,10 @@
 .click {
   background: black;
   color: white;
+}
+
+@media only screen and (max-width: 1300px) {
+  .survey-grid-btn {
+    width: 70%;
+  }
 }

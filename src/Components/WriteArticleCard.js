@@ -16,6 +16,24 @@ const WriteArticleCard = (props) => {
     const [loading, setLoading] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [message, setMessage] = useState("");
+    const [googlePhoto, setGooglePhoto] = useState("");
+    const [photoURL, setPhotoURL] = useState("");
+
+    useEffect(() => {
+        db.collection("users").doc(props.email).get().then((doc) => {
+            if (doc.exists) {
+                setGooglePhoto(doc.data().googlePhoto);
+                setPhotoURL(doc.data().photoURL);
+            } else {
+                // doc.data() will be undefined in this case
+                setGooglePhoto("");
+                setPhotoURL("");
+            }
+        }).catch((error) => {
+            openSnackbar(true);
+            setMessage(error);
+        });
+    }, [])
 
     const onDeleteArticle = () => {
         setLoading(true);
@@ -62,7 +80,7 @@ const WriteArticleCard = (props) => {
         </div>
         <p className="article-title">{props.title}</p>
         <div className="article-read-div">
-            <Link to={{pathname: "/" + props.name + "/" + props.title, state: {email: props.email}}} onMouseEnter={() => {setEditBackground(props.color); setEditTextColor("black")}} onMouseLeave={() => {setEditBackground("transparent"); setEditTextColor(props.color)}} style={{marginRight: 15, border: "2px solid " + props.color, color: editTextColor, backgroundColor: editBackground}} className={"article-read-btn"} type="button">Read</Link>
+            <Link to={{pathname: "/" + props.name + "/" + props.title, state: {email: props.email, name: props.name, googlePhoto: googlePhoto, photoURL: photoURL}}} onMouseEnter={() => {setEditBackground(props.color); setEditTextColor("black")}} onMouseLeave={() => {setEditBackground("transparent"); setEditTextColor(props.color)}} style={{marginRight: 15, border: "2px solid " + props.color, color: editTextColor, backgroundColor: editBackground}} className={"article-read-btn"} type="button">Read</Link>
             {loading ? <ClipLoader color={props.color} loading={loading} size={22} /> : <button onClick={onDeleteArticle} onMouseEnter={() => {setDeleteBackground(props.color); setDeleteTextColor("black")}} onMouseLeave={() => {setDeleteBackground("transparent"); setDeleteTextColor(props.color)}} style={{border: "2px solid " + props.color, color: deleteTextColor, backgroundColor: deleteBackground}} className={"article-read-btn"} type="button">Delete</button>}
         </div>
         <Snackbar

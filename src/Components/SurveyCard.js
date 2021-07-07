@@ -41,7 +41,6 @@ class SurveyCard extends React.Component {
         </button>
         : <button style={{background: "black"}} onClick={() => this.removeCategory(this.props.title)} className="survey-grid-btn" type="button">
             <svg width="11" height="11" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="7" width="4" height="18" rx="2" fill={"white"} />
                 <rect y="11" width="4" height="18" rx="2" transform="rotate(-90 0 11)" fill={"white"} />
             </svg>
             <p style={{color: "white"}} className="survey-grid-title">{this.props.title}</p>

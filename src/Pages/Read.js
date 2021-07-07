@@ -69,7 +69,8 @@ class Read extends React.Component {
                                 title: eachData.title,
                                 category: eachData.category,
                                 html: eachData.html,
-                                profileImg: doc.data().photoURL,
+                                googlePhoto: doc.data().googlePhoto,
+                                photoURL: doc.data().photoURL,
                                 name: doc.data().displayName,
                                 doc: eachData.doc
                             }), loading: false});
@@ -89,23 +90,29 @@ class Read extends React.Component {
     }
 
     removeFromCategory = (title) => {
-        const newCategory = this.state.categories.slice(0, title).concat(this.state.categories.slice(title+1, -1));
+        const index = this.state.categories.indexOf(title);
+        const newCategory = this.state.categories.slice(0, index).concat(this.state.categories.slice(index+1, this.state.categories.length));
+        console.log(newCategory);
         this.setState({categories: newCategory});
     }
 
     onSubmitSurvey = () => {
-        db.collection("users").doc(this.props.user.email).update({
-            articleCategories: this.state.categories
-        }).then(() => {
-            this.setState({openSnackbar: true, message: `Thanks for taking the Survey.`});
-            setTimeout(() => {
-                window.location.reload();
-            }, 1500);
-        })
-        .catch((error) => {
-            // The document probably doesn't exist.
-            this.setState({openSnackbar: true, message: "Error occurred while submitting the survey"});
-        });
+        if(this.state.categories.length === 0) {
+            this.setState({openSnackbar: true, message: "Please select at least one Category."});
+        } else {
+            db.collection("users").doc(this.props.user.email).update({
+                articleCategories: this.state.categories
+            }).then(() => {
+                this.setState({openSnackbar: true, message: `Thanks for taking the Survey.`});
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            })
+            .catch((error) => {
+                // The document probably doesn't exist.
+                this.setState({openSnackbar: true, message: "Error occurred while submitting the survey"});
+            });
+        }
     }
 
     handleCloseSnackbar = () => {
@@ -148,7 +155,7 @@ class Read extends React.Component {
     }
 
     render(){
-      console.log(this.props.user);
+      console.log(this.state.categories);
       return <div className="read-container">
         <Navbar handleMenu={this.handleMenu} setUser={this.props.setUser} user={this.props.user} />
         <div className="read-bg-img-container">
@@ -156,7 +163,7 @@ class Read extends React.Component {
             <div className="read-bg-content">
                 <p className="read-bg-salutation">
                     {this.props.time === null ? null : this.props.time >= 0 & this.props.time < 12 ? "Good Morning" : this.props.time >= 12 & this.props.time < 16 ? "Good Afternoon" : "Good Evening"}
-                    <span style={{color: "#23C0B7", background: "transparent"}}> Mr. {this.props.user.displayName.split(" ")[0]}</span></p>
+                    <span style={{color: "#23C0B7", background: "transparent"}}> {this.props.user.displayName.split(" ")[0]}</span></p>
                 <p className="read-bg-welcome">Welcome to Blog.io</p>
                 <p style={{marginBottom: 30}} className="read-bg-welcome">Read an article to learn something new today.</p>
                 <p className="read-bg-quote">“Today a reader, tomorrow a leader”</p>
@@ -200,7 +207,7 @@ class Read extends React.Component {
                 ? <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}><PulseLoader color={this.props.user.color} loading={this.state.loading} size={12} margin={2} /></div>  
                 : <div className="best-writers-grid-container">
                     {this.state.articles.map(eachSurvey => {
-                        return <ArticleCard email={eachSurvey.email} img={eachSurvey.img} title={eachSurvey.title} authorImg={eachSurvey.profileImg} html={eachSurvey.html} doc={eachSurvey.doc} author={eachSurvey.name} color={this.props.user.color}  />
+                        return <ArticleCard email={eachSurvey.email} img={eachSurvey.img} title={eachSurvey.title} googlePhoto={eachSurvey.googlePhoto} photoURL={eachSurvey.photoURL} html={eachSurvey.html} doc={eachSurvey.doc} author={eachSurvey.name} color={this.props.user.color}  />
                     })}
                 </div>}
             </div>
