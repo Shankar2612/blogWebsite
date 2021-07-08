@@ -667,7 +667,7 @@ const User = (props) => {
                 <img className="social-media-icon" src="https://img.icons8.com/material-outlined/18/000000/github.png"/>
             </div>
         </div>
-        <div style={{display: "flex", backgroundColor: props.user.color }} className="color-background">
+        <div style={{display: colorBackground, backgroundColor: props.user.color }} className="color-background">
             <div className="progress-div">
                 <p className="progress-percent">{progress} %</p>
                 <p className="progress-msg">Please don't refresh the page</p>
