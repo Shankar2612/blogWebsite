@@ -29,25 +29,29 @@ class CategoryItem extends React.Component {
             db.collection("articleData").get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     // this.setState({articles: this.state.articles.concat(doc.data()), loading: false});
-                    doc.data().data.map(eachData => {
-                        if(eachData.category === this.props.match.params.id) {
-                            db.collection("users").doc(doc.id).get().then((doc) => {
-                                this.setState({articles: this.state.articles.concat({
-                                    img: eachData.img,
-                                    title: eachData.title,
-                                    category: eachData.category,
-                                    html: eachData.html,
-                                    googlePhoto: doc.data().googlePhoto,
-                                    photoURL: doc.data().photoURL,
-                                    name: doc.data().displayName,
-                                    doc: eachData.doc,
-                                    email: doc.id
-                                }), loading: false});
-                            })
-                        } else {
-                            this.setState({loading: false});
-                        }
-                    })
+                    if(doc.data().data.length === 0) {
+                        this.setState({loading: false});
+                    } else {
+                        doc.data().data.map(eachData => {
+                            if(eachData.category === this.props.match.params.id) {
+                                db.collection("users").doc(doc.id).get().then((doc) => {
+                                    this.setState({articles: this.state.articles.concat({
+                                        img: eachData.img,
+                                        title: eachData.title,
+                                        category: eachData.category,
+                                        html: eachData.html,
+                                        googlePhoto: doc.data().googlePhoto,
+                                        photoURL: doc.data().photoURL,
+                                        name: doc.data().displayName,
+                                        doc: eachData.doc,
+                                        email: doc.id
+                                    }), loading: false});
+                                })
+                            } else {
+                                this.setState({loading: false});
+                            }
+                        })
+                    }
                 });
             });
         }, 1500);

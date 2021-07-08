@@ -55,11 +55,12 @@ class Read extends React.Component {
             }
         })
 
-        setTimeout(() => {
-            //Fetching articles from the database
-            db.collection("articleData").get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    // this.setState({articles: this.state.articles.concat(doc.data()), loading: false});
+        db.collection("articleData").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                // this.setState({articles: this.state.articles.concat(doc.data()), loading: false});
+                if(doc.data().data.length === 0) {
+                    this.setState({loading: false});
+                } else {
                     doc.data().data.map(eachData => {
                         db.collection("users").doc(doc.id).get().then((doc) => {
                             console.log(eachData);
@@ -73,12 +74,13 @@ class Read extends React.Component {
                                 photoURL: doc.data().photoURL,
                                 name: doc.data().displayName,
                                 doc: eachData.doc
-                            }), loading: false});
+                            })});
+                            this.setState({loading: false});
                         })
                     })
-                });
+                }
             });
-        }, 1500);
+        });
     }
 
     moveToSecondPage = () => {
@@ -205,7 +207,9 @@ class Read extends React.Component {
                 <p style={{color: "white"}} className="best-writers-title">Read from our best Writers</p>
                 {this.state.loading 
                 ? <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}><PulseLoader color={this.props.user.color} loading={this.state.loading} size={12} margin={2} /></div>  
-                : <div className="best-writers-grid-container">
+                : this.state.articles.length === 0 
+                    ? <p style={{color: this.props.user.color}} className="no-articles-text">There are no articles available now. Be the first one to post an article.</p> 
+                    : <div className="best-writers-grid-container">
                     {this.state.articles.map(eachSurvey => {
                         return <ArticleCard email={eachSurvey.email} img={eachSurvey.img} title={eachSurvey.title} googlePhoto={eachSurvey.googlePhoto} photoURL={eachSurvey.photoURL} html={eachSurvey.html} doc={eachSurvey.doc} author={eachSurvey.name} color={this.props.user.color}  />
                     })}

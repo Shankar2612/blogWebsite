@@ -401,7 +401,7 @@ class Write extends React.Component {
             <div className="progress-div">
                 <p className="progress-percent">{this.state.progress} %</p>
                 <p className="progress-msg">Please don't refresh the page</p>
-                <p className="progress-msg">We are updating your profile photo. Just wait a while...</p>
+                <p className="progress-msg">We are making your content online. Just sit and relax for a moment...</p>
             </div>
         </div>
     </div>    

@@ -174,7 +174,9 @@ const User = (props) => {
         .then(() => {
             setOpenSnackbar(true);
             setMessage(`Your article ${title} has been removed`);
-            window.location.reload();
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
         })
         .catch((error) => {
             console.error("Error while removing: ", error);
@@ -579,8 +581,8 @@ const User = (props) => {
                                     <img className="cover-photo" src={article.img} alt="coverphoto" />
                                     <p className="article-title-showcase">{article.title}</p>
                                     <div className="article-showcase-btn-div">
-                                        <Link to={"/" + props.user.displayName + "/" + article.title} style={{border: "2px solid " + props.user.color, color: props.user.color, marginRight: 15}} className="article-showcase-read" type="button">Read</Link>
-                                        <button onClick={() => deleteArticle(article.img, article.html, article.doc, article.title, article.category)} style={{border: "2px solid " + props.user.color, color: props.user.color}} className="article-showcase-read" type="button">Delete</button>
+                                        <Link to={{pathname: "/" + props.user.displayName + "/" + article.title, state: {email: props.user.email, name: props.user.displayName, googlePhoto: props.user.googlePhoto, photoURL: props.user.photoURL}}} style={{border: "2px solid " + props.user.color, color: props.user.color, marginRight: 15}} className="article-showcase-read" type="button">Read</Link>
+                                        <button onClick={() => deleteArticle(article.img, article.title, article.html, article.doc, article.category)} style={{border: "2px solid " + props.user.color, color: props.user.color}} className="article-showcase-read" type="button">Delete</button>
                                     </div>
                                 </div>
                             })}
