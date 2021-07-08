@@ -42,7 +42,7 @@ class UserWrite extends React.Component {
                             const textarea = document.getElementById("textarea");
                             if(blockquote.length !== 0) {
                                 blockquote.style.backgroundColor = this.props.user.color;
-                            // } else if(textarea.length !== 0) {
+                            }// else if(textarea.length !== 0) {
                             //     console.log(textarea.childNodes);
                             //     for(let i = 0; i < textarea.childNodes.length; i++) {
                             //         console.log(textarea.childNodes[i]);
@@ -51,14 +51,22 @@ class UserWrite extends React.Component {
                             //             console.log(textarea.childNodes[i].childNodes[0]);
                             //         }
                             //     }
-                            } else if(textarea.length !== 0 & this.state.screenWidth < 550) {
-                                textarea.getElementsByTagName("img")[0].style.width = "100%";
-                            } else {
-                                textarea.getElementsByTagName("img")[0].style.width = "auto";
-                                textarea.getElementsByTagName("img")[0].style.height = "auto";
+                            // } else if(textarea.length !== 0 & this.state.screenWidth < 550) {
+                            //     textarea.getElementsByTagName("img")[0].style.width = "100%";
+                            //     textarea.getElementsByTagName("img")[0].style.maxWidth = "100%";
+                            // } else {
+                            //     textarea.getElementsByTagName("img")[0].style.width = "auto";
+                            //     textarea.getElementsByTagName("img")[0].style.height = "auto";
+                            //     textarea.getElementsByTagName("img")[0].style.maxWidth = "100%";
+                            // }
+                            else if(textArea.length !== 0) {
+                                for(let i = 0; i < textArea.children.length; i++) {
+                                    if(textArea.children[i].tagName === "IMG") {
+                                        textArea.children[i].style.maxWidth = "100%";
+                                        textArea.children[i].style.width = "auto";
+                                    }
+                                }
                             }
-                            
-
                         }
                     })
                 } else {
@@ -90,7 +98,7 @@ class UserWrite extends React.Component {
                                 const textarea = document.getElementById("textarea");
                                 if(blockquote.length !== 0) {
                                     blockquote.style.backgroundColor = this.props.user.color;
-                                // } else if(textarea.length !== 0) {
+                                } //else if(textarea.length !== 0) {
                                 //     console.log(textarea.childNodes);
                                 //     for(let i = 0; i < textarea.childNodes.length; i++) {
                                 //         console.log(textarea.childNodes[i]);
@@ -99,13 +107,22 @@ class UserWrite extends React.Component {
                                 //             console.log(textarea.childNodes[i].childNodes[0]);
                                 //         }
                                 //     }
-                                } else if(textarea.length !== 0 & this.state.screenWidth < 550) {
-                                    textarea.getElementsByTagName("img")[0].style.width = "100%";
-                                } else {
-                                    textarea.getElementsByTagName("img")[0].style.width = "auto";
-                                    textarea.getElementsByTagName("img")[0].style.height = "auto";
+                                // } else if(textarea.length !== 0 & this.state.screenWidth < 550) {
+                                //     textarea.getElementsByTagName("img")[0].style.width = "100%";
+                                //     textarea.getElementsByTagName("img")[0].style.maxWidth = "100%";
+                                // } else {
+                                //     textarea.getElementsByTagName("img")[0].style.width = "auto";
+                                //     textarea.getElementsByTagName("img")[0].style.height = "auto";
+                                //     textarea.getElementsByTagName("img")[0].style.maxWidth = "100%";
+                                // }
+                                else if(textArea.length !== 0) {
+                                    for(let i = 0; i < textArea.children.length; i++) {
+                                        if(textArea.children[i].tagName === "IMG") {
+                                            textArea.children[i].style.width = "auto";
+                                            textArea.children[i].style.maxWidth = "100%";
+                                        }
+                                    }
                                 }
-                                
 
                             }
                         })
@@ -180,7 +197,7 @@ class UserWrite extends React.Component {
         <p className="title">{this.state.articles.title}</p>
         <div style={{backgroundColor: this.props.user.color}} className="user-div">
             <div className="user-photo-container">
-                <img className="user-photo" src={this.props.location.state.photoURL === "" ? this.props.location.state.googlePhoto : this.props.location.state.photoURL} alt="photo" />
+                <img className="user-photo" src={this.props.location.state.photoURL === "" ? (this.props.user.googlePhoto === "" ? "https://i.pinimg.com/originals/e6/38/ca/e638ca8c9bdafc0cbca31b781b279f49.jpg" : this.props.user.googlePhoto) : this.props.location.state.photoURL} alt="photo" />
             </div>
             <div className="user-details-div">
                 <p className="user-display-name">{this.props.location.state.name}</p>

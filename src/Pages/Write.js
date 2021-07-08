@@ -34,7 +34,9 @@ class Write extends React.Component {
             openSnackbar: false,
             offset: null,
             menu: "none",
-            translate: ""
+            translate: "",
+            progress: 0,
+            colorBackground: "none"
         }
     }
 
@@ -47,15 +49,13 @@ class Write extends React.Component {
         setTimeout(() => {
             db.collection("articleData").doc(this.props.user.email).get().then((doc) => {
                 if (doc.exists) {
-                    console.log("Document data:", doc.data().data);
                     this.setState({articles: doc.data().data, loading: false});
                 } else {
                     // doc.data() will be undefined in this case
-                    console.log("No such document!");
                     this.setState({articles: [], loading: false});
                 }
             }).catch((error) => {
-                console.log("Error getting document:", error);
+                this.setState({openSnackbar: true, message: "An error occurred. Please refresh the page."});
             });
         }, 1500);
     }
@@ -87,38 +87,43 @@ class Write extends React.Component {
 
             uploadTask.on('state_changed', // or 'state_changed'
                 (snapshot) => {
+                    this.setState({colorBackground: "flex"});
                     // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                     let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
+                    this.setState({progress: Math.round(progress)});
                     switch (snapshot.state) {
                     case firebase.storage.TaskState.PAUSED: // or 'paused'
-                        console.log('Upload is paused');
+                        // console.log('Upload is paused');
                         break;
                     case firebase.storage.TaskState.RUNNING: // or 'running'
-                        console.log('Upload is running');
+                        // console.log('Upload is running');
                         break;
                     }
                 }, 
                 (error) => {
+                    this.setState({colorBackground: "none"});
                     // A full list of error codes is available at
                     // https://firebase.google.com/docs/storage/web/handle-errors
                     switch (error.code) {
                     case 'storage/unauthorized':
                         // User doesn't have permission to access the object
+                        this.setState({openSnackbar: true, message: "Error while uploading cover image", colorBackground: "none"})
                         break;
                     case 'storage/canceled':
                         // User canceled the upload
-                        this.setState({openSnackbar: true, message: "Error while ulpoading cover image"});
+                        this.setState({openSnackbar: true, message: "Error while uploading cover image", colorBackground: "none"});
                         break;
 
                     // ...
 
                     case 'storage/unknown':
                         // Unknown error occurred, inspect error.serverResponse
+                        this.setState({openSnackbar: true, message: "Error while uploading cover image", colorBackground: "none"});
                         break;
                     }
                 }, 
                 () => {
+                    this.setState({colorBackground: "none"});
                     // Upload completed successfully, now we can get the download URL
                     uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                         db.collection("articleData").doc(this.props.user.email).update({
@@ -151,7 +156,6 @@ class Write extends React.Component {
     }
 
     onUploadFile = (event) => {
-        console.log(event.target.files[0]);
         this.setState({file: event.target.files[0]});
     }
 
@@ -179,6 +183,11 @@ class Write extends React.Component {
         this.setState({backgroundDisplay: "block"});
         const textArea = document.getElementById("textarea");
         textArea.innerHTML = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
+        for(let i = 0; i < textArea.children.length; i++) {
+            if(textArea.children[i].tagName === 'IMG') {
+                textArea.children[i].style.maxWidth = "100%"
+            }
+        }
     }
 
     closePreview = () => {
@@ -215,13 +224,13 @@ class Write extends React.Component {
                     this.props.history.push("/");
                 }, 1500);
             }).catch((error) => {
-                console.log(error);
+                this.setState({openSnackbar: true, message: "Error occurred while logging out. Please try again after some time."});
             });
         }
     }
 
     render(){
-        console.log(this.state.articles);
+        // console.log(this.state.articles);
         // console.log(this.state.category);
     return <div className="write-container">
         <Navbar handleMenu={this.handleMenu} setUser={this.props.setUser} user={this.props.user} />
@@ -386,6 +395,13 @@ class Write extends React.Component {
                 <img className="social-media-icon" src="https://img.icons8.com/material-rounded/18/000000/instagram-new.png"/>
                 <img className="social-media-icon" src="https://img.icons8.com/android/18/000000/linkedin.png"/>
                 <img className="social-media-icon" src="https://img.icons8.com/material-outlined/18/000000/github.png"/>
+            </div>
+        </div>
+        <div style={{display: this.state.colorBackground, backgroundColor: this.props.user.color }} className="color-background">
+            <div className="progress-div">
+                <p className="progress-percent">{this.state.progress} %</p>
+                <p className="progress-msg">Please don't refresh the page</p>
+                <p className="progress-msg">We are updating your profile photo. Just wait a while...</p>
             </div>
         </div>
     </div>    

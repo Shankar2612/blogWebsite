@@ -57,7 +57,7 @@ const Navbar = (props) => {
                 <Link to={"/" + props.user.displayName + "/read"} className="navbar-signed-items">Read</Link>
                 <button onClick={onSignOut} type="button" className="navbar-signed-items">Logout</button>
                 <Link to={"/" + props.user.displayName} className="navbar-signed-items prof-img-div-navbar">
-                    <img className="navbar-profile-img" src={props.user.photoURL === "" ? props.user.googlePhoto : props.user.photoURL} alt="profile img" />
+                    <img className="navbar-profile-img" src={props.user.photoURL === "" ? (props.user.googlePhoto === "" ? "https://i.pinimg.com/originals/e6/38/ca/e638ca8c9bdafc0cbca31b781b279f49.jpg" : props.user.googlePhoto) : props.user.photoURL} alt="profile img" />
                 </Link>
             </div>
             <img onClick={props.handleMenu} className="navbar-menu-logo" src="https://img.icons8.com/metro/26/000000/menu.png"/>

@@ -35,6 +35,8 @@ const User = (props) => {
     const [screenWidth, setScreenWidth] = useState(null);
     const [menu, setMenu] = useState("none");
     const [translate, setTranslate] = useState("");
+    const [progress, setProgress] = useState(0);
+    const [colorBackground, setColorBackground] = useState("none");
 
     useEffect(() => {
         setScreenWidth(window.innerWidth);
@@ -51,7 +53,9 @@ const User = (props) => {
                 setArticleData([]);
             }
         }).catch((error) => {
-            console.log("Error getting article:", error);
+            // console.log("Error getting article:", error);
+            setOpenSnackbar(true);
+            setMessage("An Error occurred. Please Refresh the page.");
         });
     }, [])
 
@@ -194,15 +198,16 @@ const User = (props) => {
 
             uploadTask.on('state_changed', // or 'state_changed'
                 (snapshot) => {
+                    setColorBackground("flex");
                     // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                     let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
+                    setProgress(Math.round(progress));
                     switch (snapshot.state) {
                     case firebase.storage.TaskState.PAUSED: // or 'paused'
-                        console.log('Upload is paused');
+                        // console.log('Upload is paused');
                         break;
                     case firebase.storage.TaskState.RUNNING: // or 'running'
-                        console.log('Upload is running');
+                        // console.log('Upload is running');
                         break;
                     }
                 }, 
@@ -212,21 +217,29 @@ const User = (props) => {
                     switch (error.code) {
                     case 'storage/unauthorized':
                         // User doesn't have permission to access the object
+                        setOpenSnackbar(true);
+                        setMessage("Error while uploading profile image");
+                        setColorBackground("none");
                         break;
                     case 'storage/canceled':
                         // User canceled the upload
                         setOpenSnackbar(true);
-                        setMessage("Error while ulpoading profile image");
+                        setMessage("Error while uploading profile image");
+                        setColorBackground("none");
                         break;
 
                     // ...
 
                     case 'storage/unknown':
+                        setOpenSnackbar(true);
+                        setMessage("Error while uploading profile image");
+                        setColorBackground("none");
                         // Unknown error occurred, inspect error.serverResponse
                         break;
                     }
                 }, 
                 () => {
+                    setColorBackground("none");
                     // Upload completed successfully, now we can get the download URL
                     uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                         db.collection("users").doc(props.user.email).update({
@@ -261,15 +274,16 @@ const User = (props) => {
 
                 uploadTask.on('state_changed', // or 'state_changed'
                     (snapshot) => {
+                        setColorBackground("flex");
                         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                         let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        console.log('Upload is ' + progress + '% done');
+                        setProgress(Math.round(progress));
                         switch (snapshot.state) {
                         case firebase.storage.TaskState.PAUSED: // or 'paused'
-                            console.log('Upload is paused');
+                            // console.log('Upload is paused');
                             break;
                         case firebase.storage.TaskState.RUNNING: // or 'running'
-                            console.log('Upload is running');
+                            // console.log('Upload is running');
                             break;
                         }
                     }, 
@@ -279,21 +293,29 @@ const User = (props) => {
                         switch (error.code) {
                         case 'storage/unauthorized':
                             // User doesn't have permission to access the object
+                            setOpenSnackbar(true);
+                            setMessage("Error while uploading profile image");
+                            setColorBackground("none");
                             break;
                         case 'storage/canceled':
                             // User canceled the upload
                             setOpenSnackbar(true);
-                            setMessage("Error while ulpoading profile image");
+                            setMessage("Error while uploading profile image");
+                            setColorBackground("none");
                             break;
 
                         // ...
 
                         case 'storage/unknown':
                             // Unknown error occurred, inspect error.serverResponse
+                            setOpenSnackbar(true);
+                            setMessage("Error while uploading profile image");
+                            setColorBackground("none");
                             break;
                         }
                     }, 
                     () => {
+                        setColorBackground("none");
                         // Upload completed successfully, now we can get the download URL
                         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                             db.collection("users").doc(props.user.email).update({
@@ -314,6 +336,7 @@ const User = (props) => {
                 // Uh-oh, an error occurred!
                 setOpenSnackbar(true);
                 setMessage("Error while updating profile photo");
+                setColorBackground("none");
             });
         }
     }
@@ -408,7 +431,8 @@ const User = (props) => {
                     props.history.push("/");
                 }, 1500);
             }).catch((error) => {
-                console.log(error);
+                setOpenSnackbar(true);
+                setMessage("Error while logging out. Please try after some time.");
             });
         }
     }
@@ -462,7 +486,7 @@ const User = (props) => {
                 <div className="user-img-details-div">
                     <div className="user-img-div">
                         <div style={{border: "8px solid " +  props.user.color}} className="user-img-bg-box">
-                            <img className="user-img" src={props.user.photoURL === "" ? props.user.googlePhoto : props.user.photoURL} alt="profile-img" />
+                            <img className="user-img" src={props.user.photoURL === "" ? (props.user.googlePhoto === "" ? "https://i.pinimg.com/originals/e6/38/ca/e638ca8c9bdafc0cbca31b781b279f49.jpg" : props.user.googlePhoto) : props.user.photoURL} alt="profile-img" />
                         </div>
                         {/* <button  type="button">
                             {"Edit Image"}
@@ -641,6 +665,13 @@ const User = (props) => {
                 <img className="social-media-icon" src="https://img.icons8.com/material-rounded/18/000000/instagram-new.png"/>
                 <img className="social-media-icon" src="https://img.icons8.com/android/18/000000/linkedin.png"/>
                 <img className="social-media-icon" src="https://img.icons8.com/material-outlined/18/000000/github.png"/>
+            </div>
+        </div>
+        <div style={{display: "flex", backgroundColor: props.user.color }} className="color-background">
+            <div className="progress-div">
+                <p className="progress-percent">{progress} %</p>
+                <p className="progress-msg">Please don't refresh the page</p>
+                <p className="progress-msg">We are updating your profile photo. Just wait a while...</p>
             </div>
         </div>
     </div>

@@ -34,7 +34,7 @@ const ArticleCard = (props) => {
         </div>
         <div className="article-grid-author-div">
             <div className="profile-div">
-                <img className="article-profile-img" src={props.photoURL === "" ? props.googlePhoto : props.photoURL} alt="" />
+                <img className="article-profile-img" src={props.photoURL === "" ? (props.googlePhoto === "" ? "https://i.pinimg.com/originals/e6/38/ca/e638ca8c9bdafc0cbca31b781b279f49.jpg" : props.googlePhoto) : props.photoURL} alt="" />
             </div>
             <p className="article-author-name">{props.author}</p>
             <p className="article-read-time">* {getTime()}</p>
