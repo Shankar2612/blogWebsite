@@ -52,13 +52,14 @@ class ForgotPasswordPage extends React.Component {
                     .then(response => response.json())
                     .then(data => {
                         if(data.message) {
-                            console.log(data);
+                            // console.log(data);
                             this.setState({loading: false, blackScreen: "flex", message: "Email sent!! Please check your mailbox.", openSnackbar: true});
                             localStorage.setItem("otp", data.otp);
                             localStorage.setItem("email", this.state.email);
                             this.setState({email: ""});
                         } else {
-                            console.log(data.error);
+                            // console.log(data.error);
+                            this.setState({openSnackbar: true, message: data.error});
                         }
                     })
                 } else {
@@ -66,7 +67,7 @@ class ForgotPasswordPage extends React.Component {
                     this.setState({loading: false, email: "", message: "Email not found. Please register the user first", openSnackbar: true});
                 }
             }).catch((error) => {
-                console.log("Error getting document:", error);
+                // console.log("Error getting document:", error);
                 this.setState({loading: false, email: ""});
             });
         }

@@ -63,7 +63,7 @@ class Read extends React.Component {
                 } else {
                     doc.data().data.map(eachData => {
                         db.collection("users").doc(doc.id).get().then((doc) => {
-                            console.log(eachData);
+                            // console.log(eachData);
                             this.setState({articles: this.state.articles.concat({
                                 email: doc.id,
                                 img: eachData.img,
@@ -94,7 +94,7 @@ class Read extends React.Component {
     removeFromCategory = (title) => {
         const index = this.state.categories.indexOf(title);
         const newCategory = this.state.categories.slice(0, index).concat(this.state.categories.slice(index+1, this.state.categories.length));
-        console.log(newCategory);
+        // console.log(newCategory);
         this.setState({categories: newCategory});
     }
 
@@ -147,7 +147,7 @@ class Read extends React.Component {
                     this.props.history.push("/");
                 }, 1500);
             }).catch((error) => {
-                console.log(error);
+                this.setState({openSnackbar: true, message: "Error occurred while logging out. Please try again after some time."});
             });
         }
     }
@@ -157,7 +157,7 @@ class Read extends React.Component {
     }
 
     render(){
-      console.log(this.state.categories);
+    //   console.log(this.state.categories);
       return <div className="read-container">
         <Navbar handleMenu={this.handleMenu} setUser={this.props.setUser} user={this.props.user} />
         <div className="read-bg-img-container">

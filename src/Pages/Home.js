@@ -18,8 +18,6 @@ const Home = (props) => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [message, setMessage] = useState("");
 
-    console.log(props.user);
-
     const handleMenu = () => {
         if(menu === "none") {
             setMenu("block");
@@ -50,7 +48,8 @@ const Home = (props) => {
                     props.history.push("/");
                 }, 1500);
             }).catch((error) => {
-                console.log(error);
+                setOpenSnackbar(true);
+                setMessage("Error occurred while logging out. Please try again after some time.");
             });
         }
     }

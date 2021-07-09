@@ -22,6 +22,11 @@
   align-items: center;
 }
 
+.register-card {
+  height: 70%;
+  overflow-y: scroll;
+}
+
 .register-header,
 .signin-header {
   width: fit-content;
@@ -95,6 +100,10 @@
   font-weight: 600;
 }
 
+.register-member {
+  margin-bottom: 15px;
+}
+
 .register-sign-in,
 .signin-register {
   margin-left: 8px;
@@ -135,6 +144,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.imp-note-register {
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: red;
+  text-align: justify;
 }
 
 @media only screen and (max-width: 1050px) {

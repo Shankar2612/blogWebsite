@@ -83,7 +83,7 @@ class CategoryItem extends React.Component {
                     this.props.history.push("/");
                 }, 1500);
             }).catch((error) => {
-                console.log(error);
+                this.setState({openSnackbar: true, message: "Error occurred while logging out. Please try again after some time."});
             });
         }
     }

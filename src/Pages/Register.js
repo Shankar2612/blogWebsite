@@ -58,40 +58,28 @@ const Register = (props) => {
 
             db.collection("users").doc(email).get().then((doc) => {
                 if (doc.exists) {
-                    if(doc.data().dob === "" || doc.data().password === "") {
-                        db.collection("users").doc(email).update({
-                            dob: dob,
-                            password: password
-                        })
-                        .then(() => {
-                            setOpenSnackbar(true);
-                            setMessage("This email is already registered with us. You can now Sign In with the password you have provided!");
-                            setName("");
-                            setEmail("");
-                            setDOB("");
-                            setPassword("");
-                            setConfirmPassword("");
-                            setError("");
-                            setLoadingScreen("none");
-                            setLoading(false);
-                        })
-                        .catch((error) => {
-                            // The document probably doesn't exist.
-                            console.error("Error updating document: ", error);
-                            setLoadingScreen("none");
-                            setLoading(false);
-                        });
-                    } else {
+                    if(doc.data().password === "") {
                         setOpenSnackbar(true);
-                        setMessage("This email is already registered with us. You can now Sign In!");
+                        setMessage("This Email is already registered with us. You can set your password after signing in to your account.");
+                        setLoading(false);
+                        setLoadingScreen("none");
                         setName("");
                         setEmail("");
                         setDOB("");
                         setPassword("");
                         setConfirmPassword("");
                         setError("");
-                        setLoadingScreen("none");
+                    } else {
+                        setOpenSnackbar(true);
+                        setMessage("This Email is already registered with us. You can Sign In or use a different one.");
                         setLoading(false);
+                        setLoadingScreen("none");
+                        setName("");
+                        setEmail("");
+                        setDOB("");
+                        setPassword("");
+                        setConfirmPassword("");
+                        setError("");
                     }
                 } else {
                     // doc.data() will be undefined in this case
@@ -193,6 +181,9 @@ const Register = (props) => {
             </div>
             <button onClick={onRegister} className="register-btn" type="button">Continue</button>
             <p className="register-member">Already a member? <Link className="register-sign-in" to="/signin">SignIn</Link></p>
+            <p className="imp-note-register">Note: <span style={{color: "black", fontWeight: 400, fontSize: 13}}>If you have signed in using Google or Github, then there is by default no password set up initially. 
+            So you have to Sign In using the Authentication provider (Google or Github) you used before and go to the Profile section to change/set your password.{" "} 
+            <span style={{fontWeight: 700}}>Or</span> you can request for a Forgot Password in the Sign In page.</span></p>
         </div>
         <div style={{display: loadingScreen}} className="loading-screen">
             <div style={{zIndex: 200, backgroundColor: "transparent"}}>
