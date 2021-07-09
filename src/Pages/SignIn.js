@@ -49,11 +49,17 @@ const SignIn = (props) => {
                             data: []
                         })
                         .then(() => {
-                            props.history.push("/");
-                            props.setUser(doc.data());
+                            db.collection("users").doc(payload.user.email).get().then((doc) => {
+                                props.setUser(doc.data());
+                                props.history.push("/");
+                            })
+                            .catch((error) => {
+                                setMessage("Error while Sign In");
+                                setOpenSnackbar(true);
+                            });
                         })
                         .catch((error) => {
-                            setMessage("Error while creating article data");
+                            setMessage("Error while Sign In");
                             setOpenSnackbar(true);
                         });
                     })
@@ -95,8 +101,14 @@ const SignIn = (props) => {
                             data: []
                         })
                         .then(() => {
-                            props.history.push("/");
-                            props.setUser(doc.data());
+                            db.collection("users").doc(result.user.email).get().then((doc) => {
+                                props.setUser(doc.data());
+                                props.history.push("/");
+                            })
+                            .catch((error) => {
+                                setMessage("Error while Sign In");
+                                setOpenSnackbar(true);
+                            });
                         })
                         .catch((error) => {
                             setMessage("Error while creating article data");

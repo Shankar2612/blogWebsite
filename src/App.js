@@ -46,12 +46,16 @@ class App extends React.Component {
           console.log("user signed in", user);
   
           db.collection("users").doc(user.email).get().then((doc) => {
-            this.setState({userColor: doc.data().color, user: doc.data(), isLoggedin: true, loading: false});
+            if(doc.exists) {
+              this.setState({userColor: doc.data().color, user: doc.data(), isLoggedin: true, loading: false});
+            } else {
+              this.setState({userColor: "", user: null, isLoggedin: false, loading: false});
+            }
           });
   
         } else {
           console.log("user signed out");
-          this.setState({user: null, isLoggedin: false, loading: false});
+          this.setState({user: null, userColor: "", isLoggedin: false, loading: false});
         }
       });
     }
@@ -67,7 +71,7 @@ class App extends React.Component {
 
   render() {
     console.log(this.state.user, this.state.isLoggedin);
-    console.log(localStorage.getItem("otp"));
+    // console.log(localStorage.getItem("otp"));
   return (    
     <div className="app">
       <Router>
