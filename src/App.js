@@ -43,7 +43,7 @@ class App extends React.Component {
     } else {
       auth.onAuthStateChanged((user) => {
         if (user) {
-          console.log("user signed in", user);
+          // console.log("user signed in", user);
   
           db.collection("users").doc(user.email).get().then((doc) => {
             if(doc.exists) {
@@ -54,7 +54,7 @@ class App extends React.Component {
           });
   
         } else {
-          console.log("user signed out");
+          // console.log("user signed out");
           this.setState({user: null, userColor: "", isLoggedin: false, loading: false});
         }
       });
@@ -70,7 +70,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.user, this.state.isLoggedin);
+    // console.log(this.state.user, this.state.isLoggedin);
     // console.log(localStorage.getItem("otp"));
   return (    
     <div className="app">

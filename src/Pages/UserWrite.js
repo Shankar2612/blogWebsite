@@ -80,11 +80,12 @@ class UserWrite extends React.Component {
                             })
                         } else {
                             // doc.data() will be undefined in this case
-                            console.log("No such document!");
+                            // console.log("No such document!");
                             this.setState({articles: {}});
                         }
                     }).catch((error) => {
-                        console.log("Error getting document:", error);
+                        // console.log("Error getting document:", error);
+                        this.setState({openSnackbar: true, message: "An Error occurred while retrieving info from the database. Please refresh the page."});
                     });
                 }
             });
@@ -101,7 +102,7 @@ class UserWrite extends React.Component {
                     if(docs.data().displayName === this.props.match.params.id & !this.state.foundFlag) {
                         db.collection("articleData").doc(docs.data().email).get().then((doc) => {
                             if (doc.exists) {
-                                console.log("Document data:", doc.data().data);
+                                // console.log("Document data:", doc.data().data);
                                 doc.data().data.map(eachData => {
                                     if(eachData.title === this.props.match.params.article) {
                                         this.setState({foundFlag: true});
@@ -124,11 +125,12 @@ class UserWrite extends React.Component {
                                 })
                             } else {
                                 // doc.data() will be undefined in this case
-                                console.log("No such document!");
+                                // console.log("No such document!");
                                 this.setState({articles: {}});
                             }
                         }).catch((error) => {
-                            console.log("Error getting document:", error);
+                            // console.log("Error getting document:", error);
+                            this.setState({openSnackbar: true, message: "An Error occurred while retrieving info from the database. Please refresh the page."});
                         });
                     }
                 });
@@ -178,7 +180,8 @@ class UserWrite extends React.Component {
                     this.props.history.push("/");
                 }, 1500);
             }).catch((error) => {
-                console.log(error);
+                // console.log(error);
+                this.setState({openSnackbar: true, message: "Error occurred while logging out."});
             });
         }
     }
@@ -283,37 +286,3 @@ class UserWrite extends React.Component {
 }
 
 export default withRouter(UserWrite);
-
-
-/*
-db.collection("articleData").doc(this.props.location.state.email).get().then((doc) => {
-                if (doc.exists) {
-                    console.log("Document data:", doc.data().data);
-                    doc.data().data.map(eachData => {
-                        if(eachData.title === this.props.match.params.article) {
-                            this.setState({articles: eachData, date: new Date(eachData.doc.seconds * 1000), html: eachData.html});
-                            textArea.innerHTML = this.state.html;
-                            const blockquote = document.getElementsByTagName("blockquote");
-                            const textarea = document.getElementById("textarea");
-                            if(blockquote.length !== 0) {
-                                blockquote.style.backgroundColor = this.props.user.color;
-                            } else if(textArea.length !== 0) {
-                                for(let i = 0; i < textArea.children.length; i++) {
-                                    if(textArea.children[i].tagName === "IMG") {
-                                        textArea.children[i].style.width = "auto";
-                                        textArea.children[i].style.maxWidth = "100%";
-                                    }
-                                }
-                            }
-
-                        }
-                    })
-                } else {
-                    // doc.data() will be undefined in this case
-                    console.log("No such document!");
-                    this.setState({articles: {}});
-                }
-            }).catch((error) => {
-                console.log("Error getting document:", error);
-            });
-            */

@@ -60,7 +60,8 @@ const WriteArticleCard = (props) => {
                 }, 1500);
             })
             .catch((error) => {
-                console.error("Error while removing: ", error);
+                setOpenSnackbar(true);
+                setMessage("Error deleting the article");
             });
         }).catch((error) => {
             // Uh-oh, an error occurred!

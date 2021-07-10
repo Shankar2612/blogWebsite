@@ -183,7 +183,9 @@ const SignIn = (props) => {
                     setPassword("");
                 }
             }).catch((error) => {
-                console.log("Error getting document:", error);
+                // console.log("Error getting document:", error);
+                setMessage("An Error occurred. Please try again after some time.");
+                setOpenSnackbar(true);
                 setLoadingScreen("none");
                 setLoading(false);
                 setEmail("");

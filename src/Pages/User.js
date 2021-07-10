@@ -81,7 +81,9 @@ const User = (props) => {
         })
         .catch((error) => {
             // The document probably doesn't exist.
-            console.error("Error applying color: ", error);
+            // console.error("Error applying color: ", error);
+            setOpenSnackbar(true);
+            setMessage("An Error occurred while changing color.");
         });
     }
 
@@ -101,7 +103,9 @@ const User = (props) => {
         })
         .catch((error) => {
             // The document probably doesn't exist.
-            console.error("Error changing username: ", error);
+            // console.error("Error changing username: ", error);
+            setOpenSnackbar(true);
+            setMessage("An Error occurred while changing username.");
         });
     }
 
@@ -126,7 +130,9 @@ const User = (props) => {
         })
         .catch((error) => {
             // The document probably doesn't exist.
-            console.error("Error updating hobby: ", error);
+            // console.error("Error updating hobby: ", error);
+            setOpenSnackbar(true);
+            setMessage("An Error occurred while updating your hobbies.");
         });
     }
 
@@ -179,7 +185,9 @@ const User = (props) => {
             }, 1500);
         })
         .catch((error) => {
-            console.error("Error while removing: ", error);
+            // console.error("Error while removing: ", error);
+            setOpenSnackbar(true);
+            setMessage(`An Error occurred while deleting your article.`);
         });
     }
 
@@ -253,7 +261,9 @@ const User = (props) => {
                             window.location.reload();
                         })
                         .catch((error) => {
-                            console.error("Error while uploading: ", error);
+                            // console.error("Error while uploading: ", error);
+                            setOpenSnackbar(true);
+                            setMessage("An Error occurred while updating your profile photo.");
                         });
                     });
                 }
@@ -329,7 +339,9 @@ const User = (props) => {
                                 window.location.reload();
                             })
                             .catch((error) => {
-                                console.error("Error while uploading: ", error);
+                                // console.error("Error while uploading: ", error);
+                                setOpenSnackbar(true);
+                                setMessage("An Error occurred while updating your profile photo");
                             });
                         });
                     }
@@ -390,7 +402,7 @@ const User = (props) => {
             })
             .catch((error) => {
                 // The document probably doesn't exist.
-                console.error("Error updating document: ", error);
+                // console.error("Error updating document: ", error);
                 setOpenSnackbar(true);
                 setMessage("An Error occurred while processing your request!");
                 setLoading(false);

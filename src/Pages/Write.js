@@ -143,7 +143,9 @@ class Write extends React.Component {
                             }, 1500);
                         })
                         .catch((error) => {
-                            console.error("Error while publishing: ", error);
+                            // console.error("Error while publishing: ", error);
+                            this.setState({openSnackbar: true, message: "Error occurred while publishing your article."});
+                            this.setState({publishLoading: false});
                         });
                     });
                 }

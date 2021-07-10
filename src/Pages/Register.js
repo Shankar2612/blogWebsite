@@ -114,20 +114,22 @@ const Register = (props) => {
                         })
                         .catch((error) => {
                             setOpenSnackbar(true);
-                            setMessage("Error while creating article data");
+                            setMessage("Error occurred while registering user.");
                             setLoadingScreen("none");
                             setLoading(false);
                         });
                     })
                     .catch((error) => {
                         setOpenSnackbar(true);
-                        setMessage("Error while Sign In");
+                        setMessage("Error occurred while registering user.");
                         setLoadingScreen("none");
                             setLoading(false);
                     });
                 }
             }).catch((error) => {
-                console.log("Error getting document:", error);
+                // console.log("Error getting document:", error);
+                setOpenSnackbar(true);
+                setMessage("Error occurred while registering user.");
                 setLoadingScreen("none");
                 setLoading(false);
             });

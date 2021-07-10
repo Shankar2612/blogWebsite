@@ -31,7 +31,8 @@ const Navbar = (props) => {
                     props.history.push("/");
                 }, 1500);
             }).catch((error) => {
-                console.log(error);
+                setOpenSnackbar(true);
+                setMessage("Error occurred while logging out. Please try again after some time.");
             });
         }
     }
