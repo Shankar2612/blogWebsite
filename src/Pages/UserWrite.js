@@ -6,6 +6,7 @@ import Footer from "../Components/Footer";
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import Error from "./Error";
 import "./UserWrite.css";
 
 class UserWrite extends React.Component {
@@ -19,122 +20,119 @@ class UserWrite extends React.Component {
             menu: "none",
             translate: "",
             openSnackbar: false,
-            message: ""
+            message: "",
+            foundFlag: true,
+            googlePhoto: "",
+            photoURL: "",
+            displayName: ""
+        }
+    }   
+    
+    setHtml = (textArea) => {
+        textArea.innerHTML = this.state.html;
+        const blockquote = document.getElementsByTagName("blockquote");
+        // const textarea = document.getElementById("textarea");
+        if(blockquote.length !== 0) {
+            blockquote.style.backgroundColor = this.props.user.color;
+        } else if(textArea.length !== 0) {
+            for(let i = 0; i < textArea.children.length; i++) {
+                if(textArea.children[i].tagName === "IMG") {
+                    textArea.children[i].style.maxWidth = "100%";
+                    textArea.children[i].style.width = "auto";
+                }
+            }
         }
     }
 
     componentDidMount() {
         this.setState({screenWidth: window.innerWidth});
-
-        const textArea = document.getElementById("textarea");
         
-        if(this.props.location.state === undefined) {
-            this.props.history.push("/");
-        } else {
-            db.collection("articleData").doc(this.props.location.state.email).get().then((doc) => {
-                if (doc.exists) {
-                    console.log("Document data:", doc.data().data);
-                    doc.data().data.map(eachData => {
-                        if(eachData.title === this.props.match.params.article) {
-                            this.setState({articles: eachData, date: new Date(eachData.doc.seconds * 1000), html: eachData.html});
-                            textArea.innerHTML = this.state.html;
-                            const blockquote = document.getElementsByTagName("blockquote");
-                            const textarea = document.getElementById("textarea");
-                            if(blockquote.length !== 0) {
-                                blockquote.style.backgroundColor = this.props.user.color;
-                            }// else if(textarea.length !== 0) {
-                            //     console.log(textarea.childNodes);
-                            //     for(let i = 0; i < textarea.childNodes.length; i++) {
-                            //         console.log(textarea.childNodes[i]);
-                            //         if(textarea.childNodes[i].childNodes.length !== 0) {
-                            //             // console.log(textarea.childNodes[i], "it's an image tag!!");
-                            //             console.log(textarea.childNodes[i].childNodes[0]);
-                            //         }
-                            //     }
-                            // } else if(textarea.length !== 0 & this.state.screenWidth < 550) {
-                            //     textarea.getElementsByTagName("img")[0].style.width = "100%";
-                            //     textarea.getElementsByTagName("img")[0].style.maxWidth = "100%";
-                            // } else {
-                            //     textarea.getElementsByTagName("img")[0].style.width = "auto";
-                            //     textarea.getElementsByTagName("img")[0].style.height = "auto";
-                            //     textarea.getElementsByTagName("img")[0].style.maxWidth = "100%";
-                            // }
-                            else if(textArea.length !== 0) {
-                                for(let i = 0; i < textArea.children.length; i++) {
-                                    if(textArea.children[i].tagName === "IMG") {
-                                        textArea.children[i].style.maxWidth = "100%";
-                                        textArea.children[i].style.width = "auto";
+        db.collection("users").get().then((querySnapshot) => {
+            querySnapshot.forEach((docs) => {
+                // doc.data() is never undefined for query doc snapshots
+                if(docs.data().displayName === this.props.match.params.id & this.state.foundFlag) {
+                    db.collection("articleData").doc(docs.data().email).get().then((doc) => {
+                        if (doc.exists) {
+                            // console.log("Document data:", doc.data().data);
+                            doc.data().data.map(eachData => {
+                                if(eachData.title === this.props.match.params.article) {
+                                    const textArea = document.getElementById("textarea");
+                                    this.setState({googlePhoto: docs.data().googlePhoto, photoURL: docs.data().photoURL, displayName: docs.data().displayName});
+                                    // this.setState({foundFlag: true});
+                                    this.setState({articles: eachData, date: new Date(eachData.doc.seconds * 1000), html: eachData.html});
+                                    // console.log(textArea);
+                                    textArea.innerHTML = this.state.html;
+                                    const blockquote = document.getElementsByTagName("blockquote");
+                                    // const textarea = document.getElementById("textarea");
+                                    if(blockquote.length !== 0) {
+                                        blockquote.style.backgroundColor = this.props.user.color;
+                                    } else if(textArea.length !== 0) {
+                                        for(let i = 0; i < textArea.children.length; i++) {
+                                            if(textArea.children[i].tagName === "IMG") {
+                                                textArea.children[i].style.maxWidth = "100%";
+                                                textArea.children[i].style.width = "auto";
+                                            }
+                                        }
                                     }
+                                } else {
+                                    this.setState({foundFlag: false});
                                 }
-                            }
+                            })
+                        } else {
+                            // doc.data() will be undefined in this case
+                            console.log("No such document!");
+                            this.setState({articles: {}});
                         }
-                    })
-                } else {
-                    // doc.data() will be undefined in this case
-                    console.log("No such document!");
-                    this.setState({articles: {}});
+                    }).catch((error) => {
+                        console.log("Error getting document:", error);
+                    });
                 }
-            }).catch((error) => {
-                console.log("Error getting document:", error);
             });
-        }
+        });
 
         window.addEventListener("resize", () => {
             this.setState({screenWidth: window.innerWidth});
 
             const textArea = document.getElementById("textarea");
         
-            if(this.props.location.state === undefined) {
-                this.props.history.push("/");
-            } else {
-                db.collection("articleData").doc(this.props.location.state.email).get().then((doc) => {
-                    if (doc.exists) {
-                        console.log("Document data:", doc.data().data);
-                        doc.data().data.map(eachData => {
-                            if(eachData.title === this.props.match.params.article) {
-                                this.setState({articles: eachData, date: new Date(eachData.doc.seconds * 1000), html: eachData.html});
-                                textArea.innerHTML = this.state.html;
-                                const blockquote = document.getElementsByTagName("blockquote");
-                                const textarea = document.getElementById("textarea");
-                                if(blockquote.length !== 0) {
-                                    blockquote.style.backgroundColor = this.props.user.color;
-                                } //else if(textarea.length !== 0) {
-                                //     console.log(textarea.childNodes);
-                                //     for(let i = 0; i < textarea.childNodes.length; i++) {
-                                //         console.log(textarea.childNodes[i]);
-                                //         if(textarea.childNodes[i].childNodes.length !== 0) {
-                                //             // console.log(textarea.childNodes[i], "it's an image tag!!");
-                                //             console.log(textarea.childNodes[i].childNodes[0]);
-                                //         }
-                                //     }
-                                // } else if(textarea.length !== 0 & this.state.screenWidth < 550) {
-                                //     textarea.getElementsByTagName("img")[0].style.width = "100%";
-                                //     textarea.getElementsByTagName("img")[0].style.maxWidth = "100%";
-                                // } else {
-                                //     textarea.getElementsByTagName("img")[0].style.width = "auto";
-                                //     textarea.getElementsByTagName("img")[0].style.height = "auto";
-                                //     textarea.getElementsByTagName("img")[0].style.maxWidth = "100%";
-                                // }
-                                else if(textArea.length !== 0) {
-                                    for(let i = 0; i < textArea.children.length; i++) {
-                                        if(textArea.children[i].tagName === "IMG") {
-                                            textArea.children[i].style.width = "auto";
-                                            textArea.children[i].style.maxWidth = "100%";
+            db.collection("cities").get().then((querySnapshot) => {
+                querySnapshot.forEach((docs) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    if(docs.data().displayName === this.props.match.params.id & !this.state.foundFlag) {
+                        db.collection("articleData").doc(docs.data().email).get().then((doc) => {
+                            if (doc.exists) {
+                                console.log("Document data:", doc.data().data);
+                                doc.data().data.map(eachData => {
+                                    if(eachData.title === this.props.match.params.article) {
+                                        this.setState({foundFlag: true});
+                                        this.setState({articles: eachData, date: new Date(eachData.doc.seconds * 1000), html: eachData.html});
+                                        textArea.innerHTML = this.state.html;
+                                        const blockquote = document.getElementsByTagName("blockquote");
+                                        const textarea = document.getElementById("textarea");
+                                        if(blockquote.length !== 0) {
+                                            blockquote.style.backgroundColor = this.props.user.color;
+                                        } else if(textArea.length !== 0) {
+                                            for(let i = 0; i < textArea.children.length; i++) {
+                                                if(textArea.children[i].tagName === "IMG") {
+                                                    textArea.children[i].style.width = "auto";
+                                                    textArea.children[i].style.maxWidth = "100%";
+                                                }
+                                            }
                                         }
+            
                                     }
-                                }
-
+                                })
+                            } else {
+                                // doc.data() will be undefined in this case
+                                console.log("No such document!");
+                                this.setState({articles: {}});
                             }
-                        })
-                    } else {
-                        // doc.data() will be undefined in this case
-                        console.log("No such document!");
-                        this.setState({articles: {}});
+                        }).catch((error) => {
+                            console.log("Error getting document:", error);
+                        });
                     }
-                }).catch((error) => {
-                    console.log("Error getting document:", error);
                 });
-            }
+            });
         });
     }
 
@@ -190,17 +188,20 @@ class UserWrite extends React.Component {
     }
 
     render(){
-        console.log(this.props.location.state);
+        // console.log(this.props.location.state);
+        // console.log(this.props);
+        // console.log(this.state.foundFlag);
     return (<div className="userwrite-container">
         <Navbar handleMenu={this.handleMenu} setUser={this.props.setUser} user={this.props.user} />
-        <img className="cover-photo" src={this.state.articles.img} alt="coverphoto" />
+        {this.state.foundFlag 
+        ? <div><img className="cover-photo" src={this.state.articles.img} alt="coverphoto" />
         <p className="title">{this.state.articles.title}</p>
         <div style={{backgroundColor: this.props.user.color}} className="user-div">
             <div className="user-photo-container">
-                <img className="user-photo" src={this.props.location.state.photoURL === "" ? (this.props.user.googlePhoto === "" ? "https://i.pinimg.com/originals/e6/38/ca/e638ca8c9bdafc0cbca31b781b279f49.jpg" : this.props.user.googlePhoto) : this.props.location.state.photoURL} alt="photo" />
+                <img className="user-photo" src={this.state.photoURL === "" ? (this.state.googlePhoto === "" ? "https://i.pinimg.com/originals/e6/38/ca/e638ca8c9bdafc0cbca31b781b279f49.jpg" : this.state.googlePhoto) : this.state.photoURL} alt="photo" />
             </div>
             <div className="user-details-div">
-                <p className="user-display-name">{this.props.location.state.name}</p>
+                <p className="user-display-name">{this.state.displayName}</p>
                 <div className="date-read-time-div">
                     <p className="date">{this.getUsersDate()}</p>
                     <p className="date">{this.getReadingTime()}</p>
@@ -275,9 +276,44 @@ class UserWrite extends React.Component {
                 <img className="social-media-icon" src="https://img.icons8.com/android/18/000000/linkedin.png"/>
                 <img className="social-media-icon" src="https://img.icons8.com/material-outlined/18/000000/github.png"/>
             </div>
-        </div>
+        </div></div>
+        : <Error />}
     </div>
 )}
 }
 
 export default withRouter(UserWrite);
+
+
+/*
+db.collection("articleData").doc(this.props.location.state.email).get().then((doc) => {
+                if (doc.exists) {
+                    console.log("Document data:", doc.data().data);
+                    doc.data().data.map(eachData => {
+                        if(eachData.title === this.props.match.params.article) {
+                            this.setState({articles: eachData, date: new Date(eachData.doc.seconds * 1000), html: eachData.html});
+                            textArea.innerHTML = this.state.html;
+                            const blockquote = document.getElementsByTagName("blockquote");
+                            const textarea = document.getElementById("textarea");
+                            if(blockquote.length !== 0) {
+                                blockquote.style.backgroundColor = this.props.user.color;
+                            } else if(textArea.length !== 0) {
+                                for(let i = 0; i < textArea.children.length; i++) {
+                                    if(textArea.children[i].tagName === "IMG") {
+                                        textArea.children[i].style.width = "auto";
+                                        textArea.children[i].style.maxWidth = "100%";
+                                    }
+                                }
+                            }
+
+                        }
+                    })
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                    this.setState({articles: {}});
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+            */
